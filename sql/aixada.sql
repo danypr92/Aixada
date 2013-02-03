@@ -1,4 +1,3 @@
-
 /***********************************************
  *	Aixada DB Structure 
  *
@@ -46,6 +45,8 @@ create table aixada_member (
   phone1    		varchar(50) 	default null,
   phone2			varchar(50) 	default null,
   web				varchar(255) 	default null,
+  bank_name 		varchar(255) 	default null, 
+  bank_account 		varchar(40) 	default null,
   picture           varchar(255)    default null,
   notes  	 		text 			default null,
   active     	  	tinyint			default 1, 
@@ -186,9 +187,11 @@ create table aixada_iva_type (
   name	     	      	varchar(255) 	not null,
   description	      	text,
   barcode 	 			varchar(50)		default null,
+  custom_product_ref	varchar(100)	default null,		
   active     	      	tinyint			default 1,
   responsible_uf_id     int             default null,
-  orderable_type_id	tinyint				default 2,
+  orderable_type_id		tinyint			default 2,
+  order_min_quantity	decimal(10,4)	default 0,
   category_id	      	int				default 1,
   rev_tax_type_id		tinyint			default 1,
   iva_percent_id  	    smallint 		default 1,
@@ -211,7 +214,8 @@ create table aixada_iva_type (
   foreign key (iva_percent_id)			references aixada_iva_type(id),
   foreign key (unit_measure_order_id) 	references aixada_unit_measure(id),
   foreign key (unit_measure_shop_id) 	references aixada_unit_measure(id),
-  key(delta_stock)
+  		  key (delta_stock),
+  unique  key (custom_product_ref, provider_id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
 
 
@@ -448,4 +452,16 @@ create table aixada_incident (
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
 
 
+/**
+ *	Evolution of prices
+ **/
+create table aixada_price (
+  product_id     	int   not null,
+  ts                    timestamp       default current_timestamp,
+  current_price    	decimal(10,2)   not null,
+  operator_id           int,
+  primary key (product_id, ts),
+  foreign key (product_id) references aixada_product(id),
+  foreign key (operator_id) references aixada_user(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
 

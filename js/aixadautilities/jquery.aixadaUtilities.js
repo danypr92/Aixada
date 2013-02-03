@@ -17,8 +17,7 @@ $(function(){
 					var price = new Number($(this).text());
 					var iva = new Number($(this).attr('iva'));
 					var rev = new Number($(this).attr('revTax'));
-					var tax = 1 + (iva+rev)/100; 
-					var net = price / tax; 
+				        var net = price / (1 + rev/100) / (1 + iva/100); 
 					
 					total += price; 
 					totalNet += net;
@@ -78,6 +77,19 @@ $(function(){
 			} else {
 				return true; 
 			}
+		},
+		
+		//checks if the given select field has something other than the default value selected
+		checkSelect : function(input, defaultValues){
+			var selval = input.val();
+			var ok = true; 
+			for (var i=0; i<defaultValues.length; i++){
+				if (selval == defaultValues[i]){
+					ok = false;
+					break;
+				}
+			}
+			return ok; 
 		},
 		
 		//checks if input is numeric and replaces "," with decimal "." and rounds to fixed. 
@@ -223,6 +235,7 @@ $(function(){
 				title : '',
 				width: 400,
 				type: "default", 
+				autoclose : 0,
 				buttons :  [
 						     {
 							    	icons : { primary : "ui-icon-check" }, //does not work!
@@ -278,6 +291,12 @@ $(function(){
 									width:settings.width,
 									buttons : settings.buttons
 							}).dialog("open");
+			
+			if (settings.autoclose > 0){
+				setTimeout(function(){
+					$("#aixada_msg").dialog('close');
+				}, settings.autoclose)
+			}
 			
 
 		}, 
