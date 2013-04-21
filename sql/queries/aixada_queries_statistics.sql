@@ -140,4 +140,19 @@ begin
   limit 1000;
 end|
 
+drop procedure if exists product_prices_in_year|
+create procedure product_prices_in_year(in the_product_id int, in the_year int)
+begin
+  declare first_day date default makedate(the_year, 1);
+  select
+     round(datediff(ts, first_day)/7.0, 1) as week, 
+     current_price as price
+  from 
+     aixada_price
+  where
+     product_id = the_product_id and
+     year(ts) = the_year;
+end|
+    
+
 delimiter ;

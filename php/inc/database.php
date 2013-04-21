@@ -164,9 +164,9 @@ class DBWrap {
    * If the last sql command executed was an insert, returns
    * the id generate by auto_increment. 
    */
-  public function get_last_id()
+  public function last_insert_id()
   {
-  		return $this->mysqli->insert_id; 
+      return $this->mysqli->insert_id; 
   }
 
   
@@ -245,28 +245,38 @@ class DBWrap {
   /**
    * Inserts arbitrary columns into a table.
    *
-   * @param string $table_name the name of the table in the database
    * @param array $arrData an array with entries of the form field => value . The values are inserted into the corresponding fields of the table.
    *
    */
-  public function Insert ($table_name, $arrData)
+  public function Insert ($arrData)
   {
-    $strSQL = 'INSERT INTO ' . $this->mysqli->real_escape_string($table_name) . ' (';
-    $strVAL = 'VALUES (';
-    $ct = 0;
-    foreach ($arrData as $field => $value) {
-      if ($ct > 0) {
-	$strSQL .= ',';
-	$strVAL .= ',';
-      } else $ct++;
+      if (!array_key_exists('table', $arrData))
+	  	throw new InternalException('Insert: Input array ' . $arrData . ' does not contain a field named "table"');
+      $table_name = $arrData['table'];
 
-      $strSQL .= $this->mysqli->real_escape_string($field);
-      $strVAL .= "'" . $this->mysqli->real_escape_string($value) . "'";
-    }
-    $strSQL .= ') ' . $strVAL . ');';
-    if (isset($_SESSION['fkeys'][$table_name]))
-      unset($_SESSION['fkeys'][$table_name]);
-    return $this->do_Execute($strSQL); // TODO: extract new index
+      $strSQL = 'INSERT INTO ' . $this->mysqli->real_escape_string($table_name) . ' (';
+      $strVAL = 'VALUES (';
+      $all_col_names = unserialize(file_get_contents(__ROOT__ .'col_names.php'));
+      if (!array_key_exists($table_name, $all_col_names)) {
+	  throw new InternalException('Inserting into table ' . $table_name . ' not permitted');
+      }
+      $col_names = $all_col_names[$table_name];
+      $ct = 0;
+      foreach ($arrData as $field => $value) {
+	  if (in_array($field, $col_names)) {
+	      if ($ct > 0) {
+		  $strSQL .= ',';
+		  $strVAL .= ',';
+	      } else $ct++;
+
+	      $strSQL .= $this->mysqli->real_escape_string($field);
+	      $strVAL .= "'" . $this->mysqli->real_escape_string($value) . "'";
+	  }
+      }
+      $strSQL .= ') ' . $strVAL . ');';
+      if (isset($_SESSION['fkeys'][$table_name]))
+	  unset($_SESSION['fkeys'][$table_name]);
+      return $this->do_Execute($strSQL); // TODO: extract new index
   }
 
   /**
@@ -275,33 +285,46 @@ class DBWrap {
    * @param array $arrData the array that contains the data to be updated must contain a field named 'id' that contains the unique id.
    * @see Insert
    */ 
-  public function Update($table_name, $arrData)
+  public function Update($arrData)
   {
-    if (!array_key_exists('id', $arrData))
-      throw new InternalException('Update: Input array ' . $arrData . ' for table ' . $table_name . ' does not contain a field named "id"');
-    $strSQL = 'UPDATE ' . $this->mysqli->real_escape_string($table_name) . ' SET ';
-    $ct=0;
-    foreach ($arrData as $field => $value) {
-      if ($field != 'id') {
-	if ($ct > 0) $strSQL .= ','; else $ct++;
-	$strSQL .= $this->mysqli->real_escape_string($field) . "='" 
-	  . $this->mysqli->real_escape_string($value) . "'";
+      if (!array_key_exists('table', $arrData))
+	  throw new InternalException('Update: Input array ' . $arrData . ' does not contain a field named "table"');
+      $table_name = $arrData['table'];
+
+      if (!array_key_exists('id', $arrData))
+	  throw new InternalException('Update: Input array ' . $arrData . ' for table ' . $table_name . ' does not contain a field named "id"');
+      $strSQL = 'UPDATE ' . $this->mysqli->real_escape_string($table_name) . ' SET ';
+
+      $all_col_names = unserialize(file_get_contents(__ROOT__ .'col_names.php'));
+      if (!array_key_exists($table_name, $all_col_names)) {
+	  throw new InternalException('Updating table ' . $table_name . ' not permitted');
       }
-    }
-    $strSQL .= ' WHERE id=' . $this->mysqli->real_escape_string($arrData['id']) . ';';
-    if (isset($_SESSION['fkeys'][$table_name]))
-      unset($_SESSION['fkeys'][$table_name]);
+      $col_names = $all_col_names[$table_name];
+
+      $ct=0;
+      foreach ($arrData as $field => $value) {
+	  if ($field != 'id' and in_array($field, $col_names)) {
+	      if ($ct > 0) $strSQL .= ','; else $ct++;
+	      $strSQL .= $this->mysqli->real_escape_string($field) . "='" 
+		  . $this->mysqli->real_escape_string($value) . "'";
+	  }
+      }
+      $strSQL .= ' WHERE id=' . $this->mysqli->real_escape_string($arrData['id']) . ';';
+      if (isset($_SESSION['fkeys'][$table_name]))
+	  unset($_SESSION['fkeys'][$table_name]);
+      
+      $success = $this->do_Execute($strSQL);
     
-    $success = $this->do_Execute($strSQL);
-    
-    if ($table_name == 'aixada_provider') {
-        $strSQL = "update aixada_product set responsible_uf_id='"
-            . $this->mysqli->real_escape_string($arrData['responsible_uf_id'])
-            . "' where provider_id="
-            . $this->mysqli->real_escape_string($arrData['id']);
-        $success = $this->do_Execute($strSQL);
-    }
-    return $success;
+      //the check happens on the client side now
+      //for import data, updates should be possible without updating the responsible_uf_id
+      /*if ($table_name == 'aixada_provider') {
+	  $strSQL = "update aixada_product set responsible_uf_id='"
+	      . $this->mysqli->real_escape_string($arrData['responsible_uf_id'])
+	      . "' where provider_id="
+	      . $this->mysqli->real_escape_string($arrData['id']);
+	  $success = $this->do_Execute($strSQL);
+      }*/
+      return $success;
 
   }
 
@@ -309,9 +332,23 @@ class DBWrap {
   public function Delete($_tn, $_id)
   {
       $table_name = $this->mysqli->real_escape_string($_tn);
+      $all_col_names = unserialize(file_get_contents(__ROOT__ .'col_names.php'));
+      if (!array_key_exists($table_name, $all_col_names)) {
+	  throw new InternalException('Deleting from table ' . $table_name . ' not permitted');
+      }
       $id = $this->mysqli->real_escape_string($_id);
-      $strSQL = "delete from {$table_name} where id='{$id}'";
-      return $this->do_Execute($strSQL);
+      if ($table_name == 'aixada_product') {
+	  $strSQL = "
+start transaction; 
+delete from aixada_price where product_id='{$id}'; 
+delete from aixada_product where id='{$id}';
+commit;";
+	  $multi = true;
+      } else {
+	  $strSQL = "delete from {$table_name} where id='{$id}'";
+	  $multi = false;
+      }
+      return $this->do_Execute($strSQL, $multi);
   }
 
   /**

@@ -9,9 +9,9 @@ require_once(__ROOT__ . 'local_config'.DS.'config.php');
  * Returns the user_id of the logged user; wraps a check around this, in order to make sure
  * the value is set. 
  */
-function get_session_user_id(){
+function get_session_user_id() {
 	
-	if (isset($_SESSION['userdata']['user_id']) && $_SESSION['userdata']['user_id'] > 0 ){
+	if (isset($_SESSION['userdata']['user_id']) && $_SESSION['userdata']['user_id'] > 0 ) {
 		return $_SESSION['userdata']['user_id'];
 	} else {
 		throw new Exception("$_Session data user_id is not set!! ");
@@ -23,9 +23,9 @@ function get_session_user_id(){
  * 
  * returns the uf of the logged user. 
  */
-function get_session_uf_id(){
+function get_session_uf_id() {
 	
-	if (isset($_SESSION['userdata']['uf_id']) && $_SESSION['userdata']['uf_id'] > 0 ){
+	if (isset($_SESSION['userdata']['uf_id']) && $_SESSION['userdata']['uf_id'] > 0 ) {
 		return $_SESSION['userdata']['uf_id'];
 	} else {
 		throw new Exception("$_Session data uf_id is not set!! ");
@@ -37,9 +37,9 @@ function get_session_uf_id(){
  * 
  * Returns the member_id of the logged user. 
  */
-function get_session_member_id(){
+function get_session_member_id() {
 	
-	if (isset($_SESSION['userdata']['member_id']) && $_SESSION['userdata']['member_id'] > 0 ){
+	if (isset($_SESSION['userdata']['member_id']) && $_SESSION['userdata']['member_id'] > 0 ) {
 		return $_SESSION['userdata']['member_id'];
 	} else {
 		throw new Exception("$_Session data member_id is not set!! ");
@@ -51,7 +51,7 @@ function get_session_member_id(){
  * 
  * returns the language for the logged user
  */
-function get_session_language(){
+function get_session_language() {
     if (isset($_SESSION['userdata']['language']) and $_SESSION['userdata']['language'] != '') {
 	return $_SESSION['userdata']['language'];
     } else {
@@ -64,7 +64,7 @@ function get_session_language(){
  * 
  * returns the theme for the logged user
  */
-function get_session_theme(){
+function get_session_theme() {
     if (isset($_SESSION['userdata']['theme']) and $_SESSION['userdata']['theme'] != '') {
 		return $_SESSION['userdata']['theme'];
     } else {
@@ -95,34 +95,34 @@ function get_current_role()
  * @param str $transform basic string transforms applied to the value of the parameter
  * @throws Exception
  */
-function get_param($param_name, $default=null, $transform = ''){
+function get_param($param_name, $default=null, $transform = '') {
 	$value; 
 
 	if (isset($_REQUEST[$param_name])) {
 		$value = $_REQUEST[$param_name];
-		if (($value == '' || $value == 'undefined') && isset($default)){
+		if (($value == '' || $value == 'undefined') && isset($default)) {
 			$value = $default;
 		} else if (($value == '' || $value == 'undefined') && !isset($default)) {
 			throw new Exception("get_param: Parameter: {$param_name} has no value and no default value");
 		}	
 			
-	} else if (isset($default) and $default !== null){
+	} else if (isset($default) and $default !== null) {
 		$value= $default;
 	} else {
 		throw new Exception("get_param: Missing or wrong parameter name: {$param_name} in URL");
 	}
 	
 	//utility hack to retrieve uf_id or user_id from session. e.g. &uf_id=-1
-	if ($param_name == "uf_id" && $value==-1){
+	if ($param_name == "uf_id" && $value==-1) {
 		$value = get_session_uf_id();	
-	} else if ($param_name == "user_id" && $value==-1){
+	} else if ($param_name == "user_id" && $value==-1) {
 		$value = get_session_user_id();
-	} else if ($param_name == "member_id" && $value==-1){
+	} else if ($param_name == "member_id" && $value==-1) {
 		$value = get_session_member_id();
 	}
 	
 	
-	switch ($transform){
+	switch ($transform) {
 		case 'lowercase':
 			$value = strtolower($value);
 			break;
@@ -133,9 +133,8 @@ function get_param($param_name, $default=null, $transform = ''){
 		
 		case 'array2String':
 			$str = "";
-			foreach ($value as $v){
+			foreach ($value as $v) {
 				$str .= $v.",";
-				
 			}
 			$value = rtrim($str,",");
 			break;
@@ -341,7 +340,7 @@ function query_XML_noparam($queryname)
   return $strXML;
 }
 
-function printXML($str){
+function printXML($str) {
   $newstr = '<?xml version="1.0" encoding="utf-8"?>';  
   $newstr .= $str; 
   header('Content-Type: text/xml');
@@ -352,6 +351,10 @@ function printXML($str){
   header('Content-Length: ' . strlen($newstr));
   echo $newstr;
 }
+
+
+
+
 
 function HTMLwrite($strHTML, $filename)
 {
@@ -395,7 +398,7 @@ function get_import_rights($db_table_name)
     $xml = '<rows>';
     
 	foreach ($import_rights[$db_table_name] as $field => $value) {
-	    		if ($value == 'allow'){
+	    		if ($value == 'allow') {
 		    		$xml .= '<row><db_field>'.$field.'</db_field></row>';
 	    		} 
     		}
@@ -404,20 +407,50 @@ function get_import_rights($db_table_name)
 
 
 
-function get_field_options_live($table, $field1, $field2)
+function get_field_options_live($table, $field1, $field2, $field3='')
 {
     global $Text;
     $strXML = '<select>';
-    $rs = DBWrap::get_instance()->Execute('select :1, :2 from :3', $field1, $field2, $table);
+    if ($field3 != ''){
+    	$strSQL = 'select :1, :2, :3 from :4';
+    } else {
+    	$strSQL = 'select :1, :2 from :3';
+    }
+    
+    if (in_array($table, array('aixada_unit_measure'))) {
+	$strSQL .= ' order by name';
+    } else if (in_array($table, array('aixada_orderable_type'))) {
+	$strSQL .= ' order by description';
+    }
+
+   
+	if ($field3 != ''){
+         $rs = DBWrap::get_instance()->Execute($strSQL, $field1, $field2, $field3, $table);    	       	
+        } else {
+        $rs = DBWrap::get_instance()->Execute($strSQL, $field1, $field2, $table);
+    }
+    
     if ($table == 'aixada_uf') {
-        $strXML .= "<option value=''></option>";
+        $strXML .= "<option value='-1'>".$Text['sel_uf']."</option>";
     }
     while ($row = $rs->fetch_array()) {
         $ot = (isset($Text[$row[1]]) ? $Text[$row[1]] : $row[1]);
-        if ($table == 'aixada_uf')
+        if ($table == 'aixada_uf'){
             $ot = //$Text['uf_short'] . ' ' . 
                 $row[0] . ' ' . $ot;
-        $strXML .= "<option value='{$row[0]}'>{$ot}</option>";
+        }
+        
+        if ($field3 != ''){
+         $strXML .= "<option value='{$row[0]}' addInfo='{$row[2]}'";        	       	
+        } else {
+        	$strXML .= "<option value='{$row[0]}'";
+        }
+                
+
+	if ($row[0] == 1) {
+	    $strXML .= ' selected';
+	}
+	$strXML .= ">{$ot}</option>";
     }
     return $strXML . '</select>';
 }
@@ -444,7 +477,7 @@ function existing_languages()
     $languages = array();
     foreach (glob(__ROOT__ . "local_config/lang/*.php") as $lang_file) {
         $a = strpos($lang_file, 'lang/');
-        $lang = substr($lang_file, $a+5, strpos($lang_file, '.')-$a-5);
+        $lang = substr($lang_file, $a+5, strpos($lang_file, '.', $a)-$a-5);
         $handle = @fopen($lang_file, "r");
         $line = fgets($handle);
         while (strpos($line, "Text['{$lang}']") === false and !feof($handle)) {
@@ -463,12 +496,17 @@ function existing_languages()
 
 function existing_languages_XML()
 {
+	$static = false; 
     // We require that a line of the form 
     // $Text['es_es'] = 'Español'
     // exists in each language file
     $XML = '<languages>';
-    foreach (existing_languages() as $lang => $lang_desc) {
-        $XML .= "<language><id>{$lang}</id><description>{$lang_desc} ({$lang})</description></language>";
+    if ($static){
+    	$XML .= "<language><id>ca-va</id><description>Català (ca-va)</description></language><language><id>en</id><description>English (en)</description></language><language><id>es</id><description>Castellano (es)</description></language>";
+    } else {
+	    foreach (existing_languages() as $lang => $lang_desc) {
+	        $XML .= "<language><id>{$lang}</id><description>{$lang_desc} ({$lang})</description></language>";
+	    }
     }
     return $XML . '</languages>';
 }

@@ -44,6 +44,7 @@ $Text['sun'] = 'Domingo';
  * 				selects
  */
 $Text['sel_provider'] = "Seleccionar un proveedor...";
+$Text['sel_product'] = "Seleccionar un producto...";
 $Text['sel_user'] = "Seleccionar un usuario...";
 $Text['sel_category'] = "Seleccionar una categoría de productos...";
 $Text['sel_uf'] = "Seleccionar una unidad familiar...";
@@ -824,7 +825,7 @@ $Text['head_ti_provider'] = "Gestión de proveedores y productos";
 $Text['edit'] = "Editar";
 $Text['ti_create_provider'] = "Añadir proveedor";
 $Text['ti_add_product'] = "Añadir producto";
-$Text['order_min'] = "Cantidad mínima para el pedido.";
+$Text['order_min'] = "Cantidad mínima para el pedido";
 $Text['msg_confirm_del_product'] = "¿Seguro que quieres borrar este producto?";
 $Text['msg_err_del_product'] = "No se puede borrar este producto porque hay entradas que dependen de él en la base de datos. Mensaje de error: ";
 $Text['msg_err_del_member'] = "No se puede borrar este usuario porque hay referencias al mismo en la base de datos<br/> Mensaje de error: ";
@@ -838,7 +839,55 @@ $Text['copy_column'] = "Copiar columna";
 $Text['paste_column'] = "Pegar";
 
 $Text['search_provider'] = "Buscar proveidor";
+$Text['msg_err_export'] = "Error al exportar datos";
+$Text['export_uf'] = "Exportar Miembros";
+$Text['btn_export'] = "Exportar";
 
+$Text['ti_visualization'] = "Visualizaciones";
+$Text['file_name'] = "Nombre de archivo";
+$Text['active_ufs'] = "Sólo UF activas";
+$Text['export_format'] = "Formato de exportación";
+$Text['google_account'] = "Google account";
+$Text['other_options'] = "Otras opciones";
+$Text['export_publish'] = "Hacer público el archivo de exportación en:";
+$Text['export_options'] = "Opciones de exportación";
+$Text['correct_stock'] = "Corregir stock";
+$Text['btn_edit_stock'] = "Editar stock";
+$Text['consult_mov_stock'] = "Consultar movimientos";
+$Text['add_stock_frase'] = "Stock total = stock actual de "; //complete frase is: total stock = current stock of X units + new stock
+$Text['correct_stock_frase'] = "El stock actual no es ";
+$Text['stock_but'] = "sino"; //current stock is not x units but...
+$Text['stock_info'] = "Nota: se pueden consultar todos los cambios de stock (adiciones, correcciones, pérdidas) con sólo hacer clic en el nombre del producto aquí abajo.";
+$Text['stock_info_product'] = "Nota: se pueden consultar todos los cambios de stock (adiciones, correcciones, pérdidas totales) desde la sección Gestionar &gt; Productos &gt; Stock.";
+
+
+$Text['msg_confirm_prov'] = "¿Seguro que quieres exportar todos los proveedores?"; 
+$Text['msg_err_upload'] = "Se ha producido un error en la carga del archivo "; 
+$Text['msg_import_matchcol'] = "Hay que hacer coincidir las entradas de la base de datos con las filas de la tabla. Debes asignar la columna que corresponde a "; //+ here then comes the name of the matching column, e.g. custom_product_ref
+$Text['msg_import_furthercol'] = "¿Qué otras columnas de la tabla quieres importar además de la columna necesaria?"; 
+$Text['msg_import_success'] = "La importación ha funcionado correctamente. ¿Quieres importar otro archivo?"; 
+$Text['btn_import_another'] = "Importar otro"; 
+$Text['btn_nothx'] = "No, gracias"; 
+$Text['import_allowed'] = "Formatos compatibles"; //as in allowed file formats
+$Text['import_file'] = "Archivo de importación"; 
+$Text['public_url'] = "URL pública";
+$Text['btn_load_file'] = "Cargar archivo";
+$Text['msg_uploading'] = "Se está cargando el archivo y se está generando la vista previa. Espera...";
+$Text['msg_parsing'] = "Se está leyendo el archivo del servidor y se está analizando. Espera...";
+$Text['import_step1'] = "Selección de archivo";
+$Text['import_step2'] = "Vista previa de los datos y asignacíón de columnas";
+$Text['import_reqcol'] = "Columna necesaria";
+$Text['import_auto'] = "Tengo buenas noticias: casi todos los datos (columnas) se han podido reconocer y puedes intentar la importación automática. No obstante, la opción más segura es previsualizar primero el contenido y luego realizar la asignación de columnas de la tabla manualmente.";
+$Text['import_qnew'] = "¿Qué quieres hacer con los datos que no existen en la base de datos actual?";
+$Text['import_createnew'] = "Crear entradas nuevas";
+$Text['import_update'] = "Sólo actualizar las filas existentes";
+$Text['btn_imp_direct'] = "Importar directamente";
+$Text['btn_import'] = "Importar";
+$Text['btn_preview'] = "Vista previa"; 
+$Text['sel_matchcol'] = "Asignar columna..."; 
+$Text['ti_import_products'] = "Importar o actualizar los productos de "; 
+$Text['ti_import_providers'] = "Importar proveedores"; 
+$Text['head_ti_import'] = "Asistente de importación";
 
 
 ?>

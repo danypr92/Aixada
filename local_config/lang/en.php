@@ -40,6 +40,7 @@ $Text['sun'] = 'Sunday';
  * 				selects
  */
 $Text['sel_provider'] = "Please select a provider...";
+$Text['sel_product'] = "Please select a product...";
 $Text['sel_user'] = "Please select a user...";
 $Text['sel_category'] = "Please select a product category...";
 $Text['sel_uf'] = "Please select household...";
@@ -596,7 +597,7 @@ $Text['active_changed_uf'] = "Active state changed for HU";
 $Text['msg_err_mentoruf'] = "The mentor household must be different from the HU itself!";
 $Text['msg_err_ufexists'] = "The HU name already exists. Please choose another one!";
 $Text['msg_err_form_init'] = "Seems like the form for creating a new member did not initialize correctly. Reload the page and then try again...   ";
-$Text['ti_mng_hu_members'] = "Manage households and its members"; 
+$Text['ti_mng_hu_members'] = "Manage households and their members"; 
 $Text['list_ufs'] = "List of households";
 $Text['search_members'] = "Member search";
 $Text['member_pl'] = "Members";
@@ -610,7 +611,7 @@ $Text['member_id'] = "Member id";
 $Text['ti_mng_stock'] = "Manage stock";
 $Text['msg_err_no_stock'] = "This provider seems to have no stock";
 $Text['msg_err_qu'] = "Quantity needs to be numeric and bigger than 0!";
-$Text['msg_correct_stock'] = "Adjusting stock this way should be the exception! New stock should always be ADDED. Are you sure to correct the stock for this product?";
+$Text['msg_correct_stock'] = "Adjusting stock this way should be the exception! New stock should always be ADDED. Are you sure you want to correct the stock for this product?";
 $Text['btn_yes_corret'] = "Yes, make correction!";
 $Text['search_product'] = "Search a product";
 $Text['add_stock'] = "Add stock";
@@ -626,7 +627,7 @@ $Text['msg_err_edit_order'] = "This order is not finalized. You can only save th
 $Text['order_open'] = "Order is open";
 $Text['finalize_now'] = "Finalize now";
 $Text['msg_err_order_filter'] = "No orders matching the filter criteria.";
-$Text['msg_finalize'] = "You are about to finalize an order. This means that no further modifications are possible to this order. Are you sure to continue?";
+$Text['msg_finalize'] = "You are about to finalize an order. This means that no further modifications are possible to this order. Are you sure you want to continue?";
 $Text['msg_finalize_open'] = "This order is still open. Finalizing it now implies that you will close it before the anounced deadline. Are you sue you want to continue?";
 $Text['msg_wait_tbl'] = "The table header is still being constructed. Depending on your internet connection this might take a little while. Try again in 5 seconds. ";
 $Text['msg_err_invalid_id'] = "No valid ID for order found! This order has not been sent off to the provider!!";
@@ -763,7 +764,7 @@ $Text['closed'] = "closed";
 $Text['preorder_item'] = "This product forms part of an accumulative order";
 $Text['do_preorder'] = "De-/activate as preorder";
 $Text['do_deactivate_prod'] = "De-/activate entire product";
-$Text['msg_make_preorder_p'] = "You are about to set this product as *preorderable*. It will be part of an accumulative order which does not have any fixed order date (yet). People can order these items until a certain quantity has been reached and you close it. Are you sure to continue?";
+$Text['msg_make_preorder_p'] = "You are about to set this product as *preorderable*. It will be part of an accumulative order which does not have any fixed order date (yet). People can order these items until a certain quantity has been reached and you close it. Are you sure you want to continue?";
 $Text['btn_ok_go'] = "Ok, go ahead!";
 $Text['msg_pwd_emailed'] = "The new password has been sent to the user";
 $Text['msg_pwd_change'] = "The new password is: ";
@@ -786,7 +787,7 @@ $Text['sel_sales_dates'] = "Show sales for provider for the given time period:";
 $Text['sel_sales_dates_ti'] = "Select time period"; 
 
 $Text['instant_repeat'] = "Instant repeat";
-$Text['msg_confirm_delordereditems'] = "There are ordered items for this product/date. Are you absolutely sure to deactivate it? This will delete the ordered items from people's order-carts!";
+$Text['msg_confirm_delordereditems'] = "There are ordered items for this product/date. Are you absolutely sure you want to deactivate it? This will delete the ordered items from people's order-carts!";
 $Text['msg_confirm_instantr'] = "Do you want to repeat this action for the rest of the active dates?";
 $Text['msg_err_delorerable'] = "Items have been ordered for this product and date. It cannot be deactivated!"; 
 $Text['msg_pre2Order'] = "Convert this preorder to a regular order. This will assign an order date, i.e. when the expected items will arrive.";
@@ -818,11 +819,11 @@ $Text['edit'] = "Edit";
 $Text['ti_create_provider'] = "Create new provider";
 $Text['ti_add_product'] = "Add product";
 $Text['order_min'] = "Min. order amount";
-$Text['msg_confirm_del_product'] = "Are you sure to delete this product?"; 
+$Text['msg_confirm_del_product'] = "Are you sure you want to delete this product?"; 
 $Text['msg_err_del_product'] = "This product cannot be deleted since other database entries depend on it. Error thrown: ";
-$Text['msg_err_del_member'] = "This user cannot be delete because other database entries reference it. <br/> Error thrown: ";
-$Text['msg_confirm_del_provider'] = "Are you sure to delete this provider?";
-$Text['msg_err_del_provider'] = "This provider cannot be delete. Try deleting its products first!";
+$Text['msg_err_del_member'] = "This user cannot be deleted because other database entries reference it. <br/> Error thrown: ";
+$Text['msg_confirm_del_provider'] = "Are you sure you want to delete this provider?";
+$Text['msg_err_del_provider'] = "This provider cannot be deleted. Try deleting its products first!";
 $Text['price_net'] = "Price netto";
 
 $Text['custom_product_ref'] = "Custom ID"; 
@@ -831,6 +832,59 @@ $Text['copy_column'] = "Copy column";
 $Text['paste_column'] = "Paste";
 
 $Text['search_provider'] = "Search for provider";
+$Text['msg_err_export'] = "Error in exporting data";
+$Text['export_uf'] = "Export Members";
+$Text['btn_export'] = "Export";
+
+$Text['ti_visualization'] = "Visualization";
+$Text['file_name'] = "File name";
+$Text['active_ufs'] = "Only active HU's";
+$Text['export_format'] = "Export format";
+$Text['google_account'] = "Google account";
+$Text['other_options'] = "Other options";
+$Text['export_publish'] = "Make export file public at:";
+$Text['export_options'] = "Export options";
+$Text['correct_stock'] = "Correct stock";
+$Text['btn_edit_stock'] = "Edit stock";
+$Text['consult_mov_stock'] = "Consult movements";
+$Text['add_stock_frase'] = "Total stock = current stock of "; //complete frase is: total stock = current stock of X units + new stock
+$Text['correct_stock_frase'] = "Current stock is not";
+$Text['stock_but'] = "but"; //current stock is not x units but...
+$Text['stock_info'] = "Note: you can consult all previous stock movements (adds, corrections, losses) by clicking on the product name below!";
+$Text['stock_info_product'] = "Note: consult all previous stock movements (adds, corrections and overall loss) from the Manage &gt; Products &gt; Stock page.";
+
+
+$Text['msg_confirm_prov'] = "Are you sure you want to export all providers?"; 
+$Text['msg_err_upload'] = "An error occured during uploading the file "; 
+$Text['msg_import_matchcol'] = "Need to match up database entries with table rows! Please assign the required matching column "; //+ here then comes the name of the matching column, e.g. custom_product_ref
+$Text['msg_import_furthercol'] = "Apart from the required column which table columns do you want to import?"; 
+$Text['msg_import_success'] = "Import has been successful. Do you want to import another file?"; 
+$Text['btn_import_another'] = "Import another"; 
+$Text['btn_nothx'] = "No, thanks!"; 
+$Text['import_allowed'] = "Allowed formats"; //as in allowed file formats
+$Text['import_file'] = "Import file"; 
+$Text['public_url'] = "Public URL";
+$Text['btn_load_file'] = "Load file";
+$Text['msg_uploading'] = "Uploading file and generating preview, please wait...!";
+$Text['msg_parsing'] = "Reading file from server and parsing, please wait...!";
+$Text['import_step1'] = "Choose a file";
+$Text['import_step2'] = "Preview data and match columns";
+$Text['import_reqcol'] = "Required column";
+$Text['import_auto'] = "Good news: most data (columns) could be recognized and you could try to automatically import the file. As a more secure alternative, preview the content first and match the table columns by hand.";
+$Text['import_qnew'] = "What should happen with data that does not exist in the database?";
+$Text['import_createnew'] = "Create new entries";
+$Text['import_update'] = "Just update existing rows";
+$Text['btn_imp_direct'] = "Import directly";
+$Text['btn_import'] = "Import";
+$Text['btn_preview'] = "Preview first"; 
+$Text['sel_matchcol'] = "Match column..."; 
+$Text['ti_import_products'] = "Import or update products for "; 
+$Text['ti_import_providers'] = "Import providers"; 
+$Text['head_ti_import'] = "Import wizard";
+
+
 //$Text[''] = ""; 
+
+
 
 ?>

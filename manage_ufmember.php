@@ -17,6 +17,7 @@
 		<script type="text/javascript" src="js/aixadautilities/jquery.aixadaMenu.js"></script>     	 
 	   	<script type="text/javascript" src="js/aixadautilities/jquery.aixadaXML2HTML.js" ></script>
 	   	<script type="text/javascript" src="js/aixadautilities/jquery.aixadaUtilities.js" ></script>
+	   	<script type="text/javascript" src="js/aixadautilities/jquery.aixadaExport.js" ></script>
    	<?php  } else { ?>
    	    <script type="text/javascript" src="js/js_for_manage_ufs.min.js"></script>
     <?php }?>
@@ -165,7 +166,7 @@
 			gMentorUf = $("option:selected", this).val();
 			});	
 
-
+			 
 		//new uf
 		$("#btn_new_uf")
 			.button({
@@ -253,6 +254,65 @@
 				e.stopPropagation(); 
 
 		});
+
+
+
+	    /**
+	     *	export ufs
+	     */
+		$('#dialog_export_options').dialog({
+			autoOpen:false,
+			width:520,
+			height:500,
+			buttons: {  
+				"<?=$Text['btn_ok'];?>" : function(){
+						exportUfs(); 
+					},
+			
+				"<?=$Text['btn_close'];?>"	: function(){
+					$( this ).dialog( "close" );
+					} 
+			}
+		});
+	    
+		$('#btn_export')
+			.button({
+				icons: {
+					primary: "ui-icon-transferthick-e-w"
+	        	}
+			})
+			.click(function(e){
+				$('#dialog_export_options')
+					.dialog("open");
+			 })
+			 .hide(); 
+
+		function checkExportForm(){
+			var frmData = $('#frm_export_options').serialize();
+			if (!$.checkFormLength($('input[name=exportName]'),1,150)){
+				$.showMsg({
+					msg:"File name cannot be empty!",
+					type: 'error'});
+				return false;
+			}
+			return frmData; 
+		}
+		
+		//initially hide authenticate and specific uf stuff. 
+		$('#export_authentication').hide();
+
+
+		/**
+		 * EXPORT ufs
+		 */
+		function exportUfs(){
+			var frmData = checkExportForm(); 
+			if (frmData){
+				var urlStr = "php/ctrl/ImportExport.php?oper=exportMembers&" + frmData; 
+				//load the stuff through the export channel
+				$('#exportChannel').attr('src',urlStr);
+			}
+		}
 
 
 		/**
@@ -961,6 +1021,7 @@
 		    <div id="titleRightCol">
 		    	<!-- p class="textAlignRight"><?php echo $Text['search_memberuf'];?>: <input type="text" name="search_member" id="search_member" class="inputTxtMiddle ui-widget-content ui-corner-all" /></p-->
 		    	<button id="btn_new_uf" class="overviewElements floatRight"><?php echo $Text['create_uf']; ?>...</button>
+		    	<button id="btn_export" class="overviewElements floatRight"><?php echo $Text['btn_export']; ?></button>
 		    </div>	  	
 		  
 		</div>
@@ -1343,6 +1404,12 @@
 	<option value="{name}"> {name}</option>
 </select>
 </div>
+
+<iframe id="exportChannel" src="" style="display:none; visibility:hidden;"></iframe>
+<div id="dialog_export_options" title="<?php echo $Text['export_options']; ?>">
+<?php include("tpl/export_dialog.php");?>
+</div>
+
 <!-- / END -->
 </body>
 </html>

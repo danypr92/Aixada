@@ -393,6 +393,9 @@ begin
 	
 	select
 		po.product_id,
+		p.name as product_name,
+		p.provider_id,
+		pv.name as provider_name,
 		po.date_for_order,
 		po.closing_date,
 		datediff(po.closing_date, today) as time_left,
@@ -414,13 +417,18 @@ begin
 		 	p.id=oi.product_id
 		 	and oi.date_for_order = po.date_for_order) as has_ordered_items
 	from 
-		aixada_product_orderable_for_date po,
+		aixada_product_orderable_for_date po
+        left join
 		aixada_product p
+        on 
+	        p.id = po.product_id
+        left join 
+		aixada_provider pv
+        on 
+	        p.provider_id = pv.id
 	where 
-		p.id = po.product_id
-		and p.provider_id = the_provider_id
-		and po.date_for_order >= fromDate
-		and po.date_for_order <= toDate;
+		    p.provider_id = the_provider_id
+		and po.date_for_order between fromDate and toDate;
 end|
 
 
@@ -790,6 +798,7 @@ end|
 drop function if exists calc_delta_price|
 create function calc_delta_price(the_diff_amount decimal(10,4), the_unit_price decimal(10,2), the_iva_percent decimal(10,2))
 returns decimal(10,2)
+DETERMINISTIC
 begin
 	
 	declare result decimal(10,2) default 0.00;

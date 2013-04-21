@@ -18,6 +18,8 @@
 		<script type="text/javascript" src="js/aixadautilities/jquery.aixadaMenu.js"></script>     	 
 	   	<script type="text/javascript" src="js/aixadautilities/jquery.aixadaXML2HTML.js" ></script>
 	   	<script type="text/javascript" src="js/aixadautilities/jquery.aixadaUtilities.js" ></script>
+	   	<script type="text/javascript" src="js/aixadautilities/jquery.aixadaExport.js" ></script>
+	   	<script type="text/javascript" src="js/tablesorter/jquery.tablesorter.js" ></script>
    	<?php  } else { ?>
 	   	<script type="text/javascript" src="js/js_for_manage_providers.min.js"></script>
     <?php }?>
@@ -25,9 +27,14 @@
  		
  	
 	<script type="text/javascript">
-	
+
+	function reloadWhat(){
+		window.location.href = "manage_providers.php"; 
+	}
+
 	$(function(){
 
+		
 		//loading animation
 		$('.loadSpinner').attr('src', "img/ajax-loader-<?=$default_theme;?>.gif"); 
 		
@@ -62,8 +69,8 @@
 								['aixada_orderable_type', 'sOrderableTypeId', 'id', 'description'],
 								['aixada_uf', 'sResponsibleUfId','id','name'],
 								['aixada_product_category','sCategoryId', 'id', 'description'],
-								['aixada_rev_tax_type','sRevTaxTypeId', 'id', 'name'],
-								['aixada_iva_type','sIvaPercentId','id','name'],
+								['aixada_rev_tax_type','sRevTaxTypeId', 'id', 'name', 'rev_tax_percent'],
+								['aixada_iva_type','sIvaPercentId','id','name', 'percent'],
 								['aixada_unit_measure','sUnitMeasureOrderId','id','name'],
 								['aixada_unit_measure','sUnitMeasureShopId','id','name']
 						];
@@ -96,8 +103,29 @@
 						$(this).html('<span class="ui-icon ui-icon-cancel"></span>').addClass("noRed ui-corner-all");
 					}
 				});
+				$("#tbl_providers").trigger("update"); 
 			}
 		});
+
+		$("#tbl_providers").tablesorter({
+			textExtraction: function(node){
+				  //should be made faster??	
+		          if ($(node).find('.aix-style-ok-green').length == 1) {
+		            return 1;
+		          } else if ($(node).find('.noRed').length == 1){
+					return 0; 
+			      } else {
+		            return $(node).text();
+		          }
+			}
+		}); 
+		
+		/*$("#tbl_providers").bind('sortEnd', function(){
+			$('tr',this).removeClass('rowHighlight')
+			$('tr:even',this).addClass('rowHighlight');
+		});*/
+
+		
 
 		//interactivity of provider listing table
 		$('#tbl_providers tbody tr')
@@ -131,6 +159,21 @@
 
 
 		//PROVIDER BUTTONS
+		
+		
+		//import providers
+		$('#btn_import_provider')
+			.button({
+				icons: {
+					primary: "ui-icon-transferthick-e-w"
+	        	}
+			})
+			.click(function(e){
+				var myWin = window.open("manage_import.php?import2Table=aixada_provider", "aname", "height=600, width=950, toolbar=0, status=0, scrollbars=1, menubar=0, location=0");
+				myWin.focus();
+				
+			});
+		
 		//new provider
 		$('#btn_new_provider')
 			.button({
@@ -173,7 +216,7 @@
 					}		 
 				} else if ($(this).hasClass('add')){
 					if (checkProviderForm('#pgProviderNew')){
-						submitForm('#pgProviderNew', 'add', 'provider');
+						submitForm('#pgProviderNew', 'add', 'provider', 'overviewProvider');
 					}
 				}
 				e.stopPropagation();
@@ -191,6 +234,41 @@
 				switchTo('overviewProvider');
 				return false; 
 		});
+
+	    // export products
+		$('#btn_provider_export')
+			.button({
+				icons: {
+					primary: "ui-icon-transferthick-e-w"
+	        	}
+			})
+			.click(function(e){
+				//anything selected? 
+				if ($('input:checkbox[name="providerBulkAction"][checked="checked"]').length  == 0){
+					$.showMsg({
+						msg:"<?=$Text['msg_confirm_prov'];?>",
+						buttons: {
+							"<?=$Text['btn_ok'];?>":function(){						
+								$('#dialog_export_options')
+								.data('export', 'provider')
+								.dialog("open");
+								$(this).dialog("close");
+							},
+							"<?=$Text['btn_cancel'];?>":function(){						
+								$(this).dialog("close");
+							}
+						},
+						type: 'warning'});
+				} else {
+					$('#dialog_export_options')
+						.data('export', 'provider')
+						.dialog("open");
+				}
+
+						
+
+			}); // end function
+				
 
 		//delete provider
 		$('.btn_del_provider')
@@ -237,7 +315,23 @@
 				e.stopPropagation();
 				
 			})
+			
+			
+		$('#toggleProviderBulkActions')
+			.click(function(e){
+				if ($(this).is(':checked')){
+					$('input:checkbox[name="providerBulkAction"]').attr('checked','checked');
+				} else {
+					$('input:checkbox[name="providerBulkAction"]').attr('checked',false);
+				}
+				e.stopPropagation();
+			});
 
+		//bulk actions
+		$('input[name=providerBulkAction]')
+			.live('click', function(e){
+				e.stopPropagation();
+			})
 			
 
 		/**
@@ -304,7 +398,7 @@
 			}
 
 			//reset all textfields
-			$('input:text, input:hidden, textarea', frm).val('');
+			$('input:text, textarea', frm).val('');
 
 			//assume that a new provider is active
 			$('input:checkbox', frm).each(function(){
@@ -362,10 +456,24 @@
 				if (gSelProduct != null && gSelProduct.attr('productId') > 0){
 					gSelProduct.addClass('ui-state-highlight');
 				}
+				$("#tbl_products").trigger("update"); 
 		
 				
 			}						
 		});			
+
+		$("#tbl_products").tablesorter({
+			textExtraction: function(node){
+				  //should be made faster??	
+		          if ($(node).find('.aix-style-ok-green').length == 1) {
+		            return 1;
+		          } else if ($(node).find('.noRed').length == 1){
+					return 0; 
+			      } else {
+		            return $(node).text();
+		          }
+			}
+		}); 
 
 		//products listing behavior
 		$('#tbl_products tbody tr')
@@ -418,17 +526,31 @@
 
 
 		//import produts
-		$('#btn_import')
+		$('#btn_import_products')
 			.button({
 				icons: {
 					primary: "ui-icon-transferthick-e-w"
 	        	}
 			})
 			.click(function(e){
-				var myWin = window.open("manage_import.php?providerId="+gSelProvider.attr('providerId'), "aname", "height=600, width=900, toolbar=0, status=0, scrollbars=1, menubar=0, location=0");
+				var myWin = window.open("manage_import.php?import2Table=aixada_product&providerName="+gSelProvider.children().eq(2).text()+"&providerId="+gSelProvider.attr('providerId'), "aname", "height=600, width=950, toolbar=0, status=0, scrollbars=1, menubar=0, location=0");
 				myWin.focus();
 				
 			});
+
+	    // export products
+		$('#btn_product_export')
+			.button({
+				icons: {
+					primary: "ui-icon-transferthick-e-w"
+	        	}
+			})
+			.click(function(e){
+				$('#dialog_export_options')
+					.data("export", "product")
+					.dialog("open");
+			 }); 
+			    
 
 		//product buttons
 		$('#btn_new_product')
@@ -532,12 +654,17 @@
 
 			
 		//jump to stock editing page
-		$('.btn_edit_stock')
+		/*$('.btn_edit_stock')
 			.live("click", function(e){
 					//var incidentId = $(this).parents('tr').attr('incidentId'); 
 					window.location.href = 'manage_stock.php?lastPage=manage_stock.php&stockProvider='+gSelProvider.attr("providerId");
 					e.stopPropagation();
-			});	
+			});	*/
+
+
+
+
+		
 			
 		//next product when on editing form
 		$('#btn_next_product')
@@ -571,6 +698,22 @@
 				var frm = $(this).parents('form');
 				calcBruttoPrice(frm);
 		})
+		
+		$('#toggleProductBulkActions')
+			.click(function(e){
+				if ($(this).is(':checked')){
+					$('input:checkbox[name="productBulkAction"]').attr('checked','checked');
+				} else {
+					$('input:checkbox[name="productBulkAction"]').attr('checked',false);
+				}
+				e.stopPropagation();
+			});
+
+		//bulk actions
+		$('input[name=productBulkAction]')
+			.live('click', function(e){
+				e.stopPropagation();
+			})
 
 		//product utility functions
 		/**
@@ -633,7 +776,8 @@
 
 		}
 
-		//creates the new product from first time called; otherwise resets fields 
+
+		//creates the new product form first time called; otherwise resets fields 
 		function prepareProductForm(){
 			var frm = $('#frm_product_new'); 
 			//prepare the provider form the first time it is called
@@ -650,13 +794,19 @@
 				//new providers have no id
 				$('#tbl_product_new input[name=id]').remove();
 
+				//clear all fields first time
+				$('input:text, input:hidden, textarea', frm).val('');
+				
 				gFirstTimeNewProduct = false; 
 			}
 
-			//reset all textfields
-			$('input:text, input:hidden, textarea', frm).val('');
+			//reset some textfields
+			$('input[name=name], textarea[name=description], input[name=custom_product_ref], input[name=unit_price], input[name=barcode], input[name=description_url]', frm).val('');
 
-			//assume that a new provider is active
+			//clear unit_price paragraph
+			$('.unit_price_brutto').text('');
+			
+			//assume that a new product is active
 			$('input:checkbox', frm).each(function(){
 				$(this).attr('checked','checked');
 			});
@@ -665,17 +815,23 @@
 			$('.setProductId', frm).html('&nbsp;');
 			$('.setProductName').text('');
 
-			//clear unit_price paragraph
-			$('.unit_price_brutto').text('');
+			//nuevos productos se tienen que crear primero antes de introducir stock
+			$('.btn_edit_stocks').button('disable');
+
+			
+			$('.setStockActualProductPage').text(0);			
 			
 			//set provider id
 			$('#frm_product_new input[name=provider_id]').val(gSelProvider.attr('providerId'));
 
-			/*$('select', frm).each(function(){
-				var firstElementValue = $(this).children(':first').val();
-				$(this).val(firstElementValue).attr('selected','selected').parent().prev().attr('value',firstElementValue);
-			})*/
+			//set responsible_uf same as provider. Doesn't work the first time when the form select gets constructed for the first time...
+			var rufid = gSelProvider.attr('responsibleUfId');
+			$('#tbl_product_new span.sResponsibleUfId').prev().val(rufid);
+			$('#tbl_product_new span.sResponsibleUfId').children('select').val(rufid).attr('selected','selected');
 			
+			
+
+						
 		}
 
 
@@ -803,7 +959,7 @@
 			   	 	$.showMsg({
 						msg: "<?php echo $Text['msg_edit_success']; ?>",
 						type: 'success',
-						autoclose:1000});
+						autoclose:800});
 			   		
 			   	},
 			   	error : function(XMLHttpRequest, textStatus, errorThrown){
@@ -817,6 +973,7 @@
 			   		if (table == 'provider'){
 				   		gProviderListReload = true; 
 			   		} else if (table == 'product'){
+			   			$('.btn_edit_stocks').button('enable');
 						gProductListReload = true; 
 				   	}
 
@@ -839,23 +996,6 @@
 			});
 		}
 
-		function loadSelectHTML(urlStr, destination){
-			$.post(urlStr, function(html){
-				var selValue = $(destination).append(html).prev().val(); 
-
-				//new provider/product have no value, so we take the first option
-				//this needs to be set manually, otherwise with a new form, no values get send
-				if (selValue == ''){
-					var selValue = $(destination).children('select:first').val();				
-					$(destination).prev().attr('value',selValue);
-				} else {
-				
-					$(destination).children('select').val(selValue).attr('selected','selected');
-				}						
-				
-			})	
-
-		}
 
 		//loads the options for select boxes. The whole story is  that the selects
 		//delivered from the getFieldsOptions of the TableManger don't have the name attribute set
@@ -872,8 +1012,107 @@
 
 				loadSelectHTML(urlStr, destination);	
 			}
-		} 
 
+		} 
+		
+
+		
+		function loadSelectHTML(urlStr, destination){
+			$.post(urlStr, function(html){
+				var selValue = $(destination).append(html).prev().val(); 
+				//new provider/product have no value, so we take the first option
+				//this needs to be set manually, otherwise with a new form, no values get send
+				if (selValue == ''){
+					var selValue = $(destination).children('select:first').val();				
+					$(destination).prev().attr('value',selValue);
+				} else {
+					$(destination).children('select').val(selValue).attr('selected','selected');
+				}						
+				
+				if (destination.indexOf('sOrderableTypeId') > 0){// && !$('#btn_edit_stocks').is(':data(autocomplete)') ){
+					 manageEditStockBtn();
+				}
+
+				if (destination.indexOf('sOrderableTypeId') > 0 && selValue == 1){
+					$('.stockElements').show();
+				} else if (destination.indexOf('sOrderableTypeId') > 0 && selValue == 2) {
+					$('.stockElements').hide();
+				}
+				
+			})	
+		}
+
+
+		function manageEditStockBtn(){
+			//since the whole product form runs through the xml2html class
+			//we need to init this stock edit button after it has 
+			//been inserted into the dom. make sure this happens only once  
+			
+				$('.btn_edit_stocks')
+				.button({
+						icons: {
+			        		primary: "ui-icon-pencil",
+			        		secondary: "ui-icon-triangle-1-s"
+			        	},text:true
+					}).menu({
+				content: $('#StockOptionsItems').html(),	
+				showSpeed: 50, 
+				width:280,
+				flyOut: true, 
+				itemSelected: function(item){
+					var action = $(item).attr('id');
+					var stockActual = gSelProduct.children().eq(10).text();
+					var unit = gSelProduct.children().eq(9).text();
+					switch (action){
+					case 'correct':
+						prepareStockForm('correct',stockActual,unit, gSelProduct.attr('productId'));  						
+						break;
+					case 'add':
+						prepareStockForm('add',stockActual,unit, gSelProduct.attr('productId'));  						
+						break;
+					case 'consult':
+						setTimeout(function(){window.location.href = 'manage_stock.php?lastPage=manage_stock.php&stockProvider='+gSelProvider.attr("providerId")},500);
+						
+						break;
+					}
+				}//end item selected 
+			});//end menu
+
+		}
+
+
+
+		$('#dialog_edit_stock').dialog({
+			autoOpen:false,
+			width:480,
+			height:400,
+			modal:true,
+			buttons: {  
+				"<?=$Text['btn_save'];?>" : function(){
+					
+						if ($(this).data('info').edit == "add"){
+							addStock($(this).data('info').id);
+						} else if ($(this).data('info').edit == "correct"){
+							correctStock($(this).data('info').id);
+						}
+					},
+			
+				"<?=$Text['btn_cancel'];?>"	: function(){
+					$( this ).dialog( "close" );
+					} 
+			}
+		});
+
+
+		
+
+		
+		
+		$('#infoStockProductPage').show();
+		$('#infoStockPage').hide();
+			
+		
+		
 
 		//for a given unit price, apply rev tax and iva and indicate the final price
 		function calcBruttoPrice(frm){
@@ -881,15 +1120,93 @@
 			var price = $.checkNumber($('input[name="unit_price"]', frm),0.00, 2);
 			$('input[name=unit_price]', frm).val(price);
 			
+			var revp = $('span.sIvaPercentId', frm).children('select').children('option:selected').attr('addInfo');
+			var ivap = $('span.sRevTaxTypeId', frm).children('select').children('option:selected').attr('addInfo');
 			
-			var rev = new Number($('input[name=rev_tax_type_id]', frm).val());
-			var iva = new Number($('input[name=iva_percent_id]', frm).val());
+			var rev = new Number(revp);
+			var iva = new Number(ivap);
+			
 			var price = price * (1 + iva/100) * (1 + rev/100); 
 
 			$('.unit_price_brutto', frm).text(price.toFixed(2));
 		}
-		
 
+
+		
+		/**
+		 * EXPORT selected providers
+		 */
+		//export options dialog
+		$('#dialog_export_options').dialog({
+			autoOpen:false,
+			width:580,
+			height:550,
+			buttons: {  
+				"<?=$Text['btn_ok'];?>" : function(){
+						if ($(this).data('export') == "provider"){
+							exportProviders();
+						} else if ($(this).data('export') == "product") {
+							exportProducts();
+						}
+					},
+			
+				"<?=$Text['btn_close'];?>"	: function(){
+					$( this ).dialog( "close" );
+					} 
+			}
+		});
+
+		function checkExportForm(){
+			var frmData = $('#frm_export_options').serialize();
+			if (!$.checkFormLength($('input[name=exportName]'),1,150)){
+				$.showMsg({
+					msg:"File name cannot be empty!",
+					type: 'error'});
+				return false;
+			}
+			return frmData; 
+		}
+
+		 
+		function exportProviders(){
+			var frmData = checkExportForm();
+			if (frmData){			
+				var urlStr = "php/ctrl/ImportExport.php?oper=exportProviderInfo&"+frmData;
+				$('input:checkbox[name="providerBulkAction"][checked="checked"]').each(function(){
+					urlStr += "&providerId[]=" + $(this).parents('tr').attr('providerId');
+				})
+			
+				//load the stuff through the export channel
+				$('#exportChannel').attr('src',urlStr);
+			}
+		}
+
+
+		/**
+		 *	read export options and make the export call for products. 
+		 */
+		function exportProducts(){
+			var frmData = checkExportForm();
+			if (frmData){	
+			
+				var urlStr = "php/ctrl/ImportExport.php?oper=exportProducts&providerId=" + gSelProvider.attr('providerId') +"&" + frmData; 
+			
+				$('input:checkbox[name="productBulkAction"][checked="checked"]').each(function(){
+					urlStr += "&productIds[]=" + $(this).parents('tr').attr('productId');
+				})
+
+				//load the stuff through the export channel
+				$('#exportChannel').attr('src',urlStr);
+			}	
+		}
+
+
+
+
+
+
+		
+		
 		//trick for setting the chosen option of the selects since generated selects don't have name!
 		$('select')
 			.live('change', function(){
@@ -902,6 +1219,13 @@
 				if (which == 'rev_tax_type_id' || which == 'iva_percent_id'){
 					var frm = $(this).parents('form');
 					calcBruttoPrice(frm);
+				}	
+
+				//show hide stock btn depending on orderable_type
+				if (which == 'orderable_type_id' && selOption == 1){
+					$('.stockElements').fadeIn(500);
+				} else if (which == 'orderable_type_id' && selOption == 2){
+					$('.stockElements').fadeOut(500);
 				}
 			})
 			
@@ -935,6 +1259,10 @@
     		.click(function(e){
 				switchTo('overviewProducts'); 
     		});
+
+
+		<?php include('js/aixadautilities/stock.js.php'); ?> 
+		
 		 
 							
 	});  //close document ready
@@ -965,7 +1293,10 @@
 		    		<div id="titleRightCol50">
 						<button class="floatRight pgProviderOverview" id="btn_new_provider"><?php echo $Text['btn_new_provider']; ?></button>
 						<button class="floatRight pgProductOverview" id="btn_new_product"><?php echo $Text['btn_new_product']; ?></button>&nbsp;
-						<button class="floatRight pgProductOverview" id="btn_import"><?php echo "Import"; ?></button>
+						<button class="floatRight pgProductOverview" id="btn_import_products"><?php echo $Text['btn_import'] ; ?></button>
+						<button class="floatRight pgProviderOverview" id="btn_import_provider"><?php echo $Text['btn_import'] ; ?></button>
+						<button class="floatRight pgProductOverview" id="btn_product_export"><?php echo $Text['btn_export']; ?></button>
+						<button class="floatRight pgProviderOverview" id="btn_provider_export"><?php echo $Text['btn_export']; ?></button>
 						<!-- p class="providerOverview"><?php echo $Text['search_provider'];?>: <input id="search" class="ui-corner-all"/></p-->
 						<div class="floatRight aix-style-padding8x8 pgProductEdit pgProdutNew">
 							<span id="setProductPagination">1/5</span> <button id="btn_prev_product"><?=$Text['previous'];?></button><button id="btn_next_product"><?=$Text['next'];?></button>&nbsp;
@@ -981,23 +1312,25 @@
 				 -->
 				<div class="ui-widget pgProviderOverview">
 					<div class="ui-widget-content ui-corner-all">
-					<h4 class="ui-widget-header">&nbsp;</h4>
+					<h4 class="ui-widget-header">&nbsp;
+						<span style="float:right; margin-top:-2px; margin-right:4px;"><img class="loadSpinner" src="img/ajax-loader.gif"/></span>
+					</h4>
 						<table id="tbl_providers" class="tblListingDefault" >
 							<thead>
 								<tr>
-									<th>&nbsp;&nbsp;<input type="checkbox" id="toggleBulkActionsProviders" name="toggleBulk"/></th>
-									<th><p class="textAlignCenter"><?php echo $Text['id'];?></p></th>
-									<th><?php echo $Text['provider_name']; ?></th>						
-									<th><?php echo $Text['phone_pl']; ?></th>
-									<th><?php echo $Text['email']; ?></th>
-									<th class="textAlignLeft"><?php echo $Text['active']; ?></th>
-									<th><?php echo $Text['responsible_uf'];?></th>
-									<th></th>
+									<th>&nbsp;&nbsp;<input type="checkbox" id="toggleProviderBulkActions" name="toggleProviderBulk"/></th>
+									<th class="clickable"><p class="floatLeft"><?php echo $Text['id'];?></p><span class="ui-icon ui-icon-triangle-2-n-s"></span></th>
+									<th class="clickable"><p class="floatLeft"><?php echo $Text['provider_name']; ?></p><span class="ui-icon ui-icon-triangle-2-n-s"></span></th>						
+									<th class="clickable"><p class="floatLeft"><?php echo $Text['phone_pl']; ?></p><span class="ui-icon ui-icon-triangle-2-n-s"></span></th>
+									<th class="clickable"><p class="floatLeft"><?php echo $Text['email']; ?></p><span class="ui-icon ui-icon-triangle-2-n-s"></span></th>
+									<th class="textAlignLeft clickable"><?php echo $Text['active']; ?>&nbsp; </th>
+									<th class="clickable" colspan="2"><p class="floatLeft"><?php echo $Text['responsible_uf'];?></p><span class="ui-icon ui-icon-triangle-2-n-s"></span></th>
+									
 								</tr>
 							</thead>
 							<tbody>
-								<tr class="clickable" providerId="{id}" >
-									<td><input type="checkbox" name="bulkAction"/></td>
+								<tr class="clickable" providerId="{id}" responsibleUfId="{responsible_uf_id}" >
+									<td><input type="checkbox" name="providerBulkAction"/></td>
 									<td><p class="textAlignRight">{id}</p></td>
 									<td title="<?php echo $Text['click_to_list']; ?>">{name}</td>
 									<td>{phone1} / {phone2}</p></td>
@@ -1024,32 +1357,35 @@
 				 -->
 				<div class="pgProductOverview ui-widget">
 					<div class="ui-widget-content ui-corner-all">
-						<h4 class="ui-widget-header"><span class="setProviderName"></span></h4>
+						<h4 class="ui-widget-header"><span class="setProviderName"></span>
+						<span style="float:right; margin-top:-2px; margin-right:4px;"><img class="loadSpinner" src="img/ajax-loader.gif"/></span>
+						</h4>
 						<table id="tbl_products" class="tblListingDefault">
 							<thead>
 								<tr>
-									<th>&nbsp;<input type="checkbox" id="toggleBulkActionsProducts" name="toggleBulk"/></th>
-									<th><?php echo $Text['id'];?></th>
-									<th><?php echo $Text['name_item'];?></th>						
-									<th><?php echo $Text['orderable_type']; ?></th>
-									<th><?php echo $Text['active']; ?></th>
+									<th>&nbsp;<input type="checkbox" id="toggleProductBulkActions" name="toggleProductBulk"/></th>
+									<th class="clickable"> <p class="floatLeft"><?php echo $Text['id'];?></p><span class="ui-icon ui-icon-triangle-2-n-s"></span></th>
+									<th class="clickable"><p class="floatLeft"><?php echo $Text['name_item'];?></p><span class="ui-icon ui-icon-triangle-2-n-s"></span></th>						
+									<th class="clickable"><p class="floatLeft"><?php echo $Text['orderable_type']; ?></p><span class="ui-icon ui-icon-triangle-2-n-s"></span></th>
+									<th class="clickable"><p class="floatLeft"><?php echo $Text['active']; ?></p></th>
 									
-									<th><p class="textAlignRight"><?php echo $Text['price_net'];?> </p></th>
-									<th><p class="textAlignCenter"><?php echo $Text['revtax_abbrev']; ?></p></th>
-									<th><p class="textAlignCenter"><?php echo $Text['iva']; ?></p></th>
+									<th class="clickable"><p class="textAlignRight"><?php echo $Text['price_net'];?> </p></th>
+									<th class="clickable"><p class="textAlignCenter"><?php echo $Text['revtax_abbrev']; ?></p></th>
+									<th class="clickable"><p class="textAlignCenter"><?php echo $Text['iva']; ?></p></th>
 									
 									
-									<th><p class="textAlignRight"><?php echo $Text['price'];?> </p></th>
-									<th><p class="textAlignCenter"><?php echo $Text['unit'];?></p></th>
+									<th class="clickable"><p class="textAlignRight"><?php echo $Text['price'];?> </p></th>
+									<th class="clickable"><p class="textAlignCenter"><?php echo $Text['unit'];?></p></th>
 									
-									<th colspan="2"><p class="textAlignRight"><?php echo $Text['stock'];?></p></th>
+									<th><p class="textAlignRight"><?php echo $Text['stock'];?></p></th>
 									
-									<th></th>
+									<th><p>&nbsp;</p></th>
+									<th><p>&nbsp;</p></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr id="{id}" class="clickable" productId="{id}">
-									<td><input type="checkbox" name="bulkAction"/></td>
+									<td><input type="checkbox" name="productBulkAction"/></td>
 									<td>{id}</td>
 									<td title="<?php echo $Text['click_row_edit']; ?>">{name}</td>
 									<td>{orderable_type_id}</td>
@@ -1060,12 +1396,9 @@
 									<td><p class="textAlignRight">{unit_price} </p></td>
 									<td><p class="textAlignCenter">{unit}</p></td>	
 									<td>
-										<p class="formatQty textAlignRight btn_edit_stock">{stock_actual}</p>
+										<p class="formatQty textAlignRight">{stock_actual}</p>
 									</td>
 									<td>
-										<p class="ui-corner-all iconContainer ui-state-default" title="Edit stock">
-											<span class="btn_edit_stock ui-icon ui-icon-pencil"></span>
-										</p>	
 									</td>
 									<td><a href="javascript:void(null)" class="btn_del_product"><?php echo $Text['btn_del'];?></a></td>
 								</tr>						
@@ -1081,6 +1414,15 @@
 							PRODUCT EDIT
 							
 				 -->
+				 
+				 <div id="StockOptionsItems" class="hidden">
+					<ul>
+						<li><a href="javascript:void(null)" id="add"><?php echo $Text['add_stock'];?></a></li>
+						<li><a href="javascript:void(null)" id="correct"><?php echo $Text['correct_stock'];?></a></li>
+						<li><a href="javascript:void(null)" id="consult"><?php echo $Text['consult_mov_stock'];?></a></li>
+					</ul>
+				</div>	
+				 
 				 <div class="pgProductEdit ui-widget" id="pgProductEdit">
 					<div class="ui-widget-content ui-corner-all">
 						<h3 class="ui-widget-header"><span class="setProviderName"></span> - <span class="setProductName"></span>
@@ -1136,9 +1478,10 @@
 							  </tr>
 							  <tr>
 							    <td><label for="orderable_type_id"><?php echo $Text['orderable_type']; ?></label></td>
-							    <td colspan="3">
+							    <td>
 							    	<input type="hidden" name="orderable_type_id" value="{orderable_type_id}"/>
-							    	<span class="textAlignLeft sOrderableTypeId"></span></td>
+							    	<span class="textAlignLeft sOrderableTypeId"></span>
+							    </td colspan="3">
 							  </tr>
 							  <tr>
 							    <td><label for="category_id"><?php echo $Text['category']; ?></label></td>
@@ -1194,6 +1537,15 @@
 							  <tr>
 							    <td>&nbsp;</td>
 							    <td colspan="3">&nbsp;</td>
+							  </tr>
+							  <tr>
+							    <td><label class="stockElements" for="stock_actual"><?php echo $Text['stock']; ?></label></td>
+							    <td>
+							    	<p class="stockElements setStockActualProductPage aix-layout-fixW100">{stock_actual}</p>
+							    </td>
+							    <td colspan="2">
+							    	<button class="btn_edit_stocks stockElements"><?php echo $Text['btn_edit_stock'];?></button>
+							    </td>
 							  </tr>
 							  <tr>
 							    <td><label for="stock_min"><?php echo $Text['stock_min']; ?></label></td>
@@ -1380,6 +1732,8 @@
 					<p>&nbsp;</p>
 				</div>
 			</div>
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
 			
 			
 			<!-- 
@@ -1418,18 +1772,22 @@
 						
 				</div>
 			</div>
-				
-			
-				
-				
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+								
 				
 
 	</div>
 	<!-- end of stage wrap -->
 </div>
 <!-- end of wrap -->
-
-
+<iframe id="exportChannel" src="" style="display:none; visibility:hidden;"></iframe>
+<div id="dialog_export_options" title="<?php echo $Text['export_options']; ?>">
+<?php include("tpl/export_dialog.php");?>
+</div>
+<div id="dialog_edit_stock">
+<?php include('tpl/stock_dialog.php');?>
+</div>
 <!-- / END -->
 </body>
 </html>

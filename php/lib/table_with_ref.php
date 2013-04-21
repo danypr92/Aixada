@@ -15,30 +15,33 @@ require_once(__ROOT__ . 'php'.DS.'inc'.DS.'name_mangling.php');
  * @subpackage General_Table_Management
  */
 class table_col {
-  private $_field, $_type, $_max_length;
-  public function __construct ($field, $type) 
-  {
-    $this->_field = $field; 
-    if (!strstr($type, '(')) {
-      $this->_type  = $type;
-      $_max_length = false;
-    } else {
-      $this->_type = strtok($type, '(');
-      $this->_max_length = strtok(',)'); // this correctly parses "float(10,2)" -> 10 and "varchar(255) -> 255"
+    private $_field, $_type, $_max_length;
+    public function __construct ($field, $type) 
+    {
+	$this->_field = $field; 
+	if (!strstr($type, '(')) {
+	    $this->_type  = $type;
+	    $_max_length = false;
+	} else {
+	    $this->_type = strtok($type, '(');
+	    $this->_max_length = strtok(',)'); // this correctly parses "float(10,2)" -> 10 and "varchar(255) -> 255"
+	}
     }
-  }
-  public function get_field()
-  {
-    return $this->_field;
-  }
-  public function get_type()
-  {
-    return $this->_type;
-  }
-  public function get_max_length()
-  {
-    return $this->_max_length;
-  }
+
+    public function get_field()
+    {
+	return $this->_field;
+    }
+
+    public function get_type()
+    {
+	return $this->_type;
+    }
+
+    public function get_max_length()
+    {
+	return $this->_max_length;
+    }
 }
 
 /**
@@ -159,14 +162,10 @@ class foreign_key_manager {
    */
   private function _get_col_descriptions ($desc)
   {
-//      global $firephp;
-//      $firephp->log($desc, 'desc');
     $da = preg_split("/,+\s+/", $desc);
     $da[0] = substr($da[0], strpos($da[0], '(') + 1); // remove CREATE TABLE
     foreach ($da as $fieldstr) {
-//        $firephp->log($fieldstr, 'fieldstr');
       $parts = explode('`', $fieldstr);
-//        $firephp->log($parts, 'parts');
       if (strpos($parts[0], 'PRIMARY') !== false)
 	break;
       $field = $parts[1];
@@ -174,7 +173,6 @@ class foreign_key_manager {
       $pp = strpos($type, ')');
       if ($pp !== false)
 	$type = substr($type, 0, $pp+1);
-//       $firephp->log(array($field,$type), 'field+type');
       $this->_table_cols[$field] = new table_col($field, $type);      
     }
   }
@@ -380,11 +378,19 @@ class foreign_key_manager {
         if ($substituted_alias[$field] == 'responsible_uf') {
             $select_clause
                 .= "\n      "  //"concat('" . $Text['uf_short'] 
-                . "concat(aixada_uf.id, ' ', aixada_uf.name) as "
-                . $substituted_alias[$field] . ',';
-        } else {
+		. "aixada_uf.id as responsible_uf_id,\n"
+		. "aixada_uf.name as responsible_uf_name,";
+        } else if ($substituted_alias[$field] == 'uf') {
+	    // add both the number and the name of the UF
+	    $select_clause
+		.= "\n      "
+		. $this->_table_name . ".uf_id,"
+                . "\n      " . $substituted_name[$field]
+                . ' as uf_name,';
+	} else {
             $select_clause 
-                .= "\n      " . $substituted_name[$field]
+                .= "\n      " . $this->_table_name . '.' . $field . ','
+		. "\n      " . $substituted_name[$field]
                 . ' as ' . $substituted_alias[$field] . ',';
         }
 	$join_clause 
@@ -455,14 +461,11 @@ class table_with_ref extends foreign_key_manager {
    */
   protected function _clean_and_validate_data(&$arrData)
   {
-//     global $firephp;
-//     $firephp->log($arrData, 'entrance');
     if (!array_key_exists($this->_primary_key, $arrData) ||
 	$arrData[$this->_primary_key] == '_empty')
       if ($this->_primary_key_unique) 
 	$this->_get_next_free_key($arrData);
     $arrData = array_diff_key($arrData, array('oper' => 1, 'table' => 2, 'key' => 3, 'val' => 4, 'retype_password' => 5)); // we need the => 1 etc values for array_diff_key to work.
-//     $firephp->log($arrData, 'second');
     foreach ($arrData as $field => $value) {
       if (!array_key_exists($field,  $this->_table_cols)) 
 	throw new Exception('Field ' . $field . ' does not exist in database ' . $this->_table_name);
