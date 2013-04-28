@@ -791,55 +791,6 @@
 
 		<div class="aix-layout-splitW40 floatRight">
 
-			<div id="deposit" class="ui-widget">
-				<div class="aix-style-observer-widget ui-widget-content ui-corner-all" >
-					<h3 class="ui-widget-header ui-corner-all"><?php echo $Text['make_deposit'];?> <span class="insert_uf_id account">??</span><span class="loadAnim floatRight"><img class="loadSpinner" src="img/ajax-loader.gif"/></span></h3>
-					<p id="depositMsg"></p>
-					<div id="deposit_content">
-						<table class="tblForms">
-						<tr><td><?php echo $Text['amount'];?>:&nbsp;&nbsp;</td><td><input type="text" name="quantity" id="deposit_amount" class="inputTxtMiddle ui-widget-content ui-corner-all" value=""/></td></tr>
-						<tr><td><?php echo $Text['comment'];?>:&nbsp;&nbsp;</td><td><input type="text" name="description" id="deposit_note" class="inputTxtMiddle ui-widget-content ui-corner-all" value=""/></td></tr>
-						<tr>
-							<td></td>
-							<td><button id="deposit_submit"><?=$Text['btn_make_deposit']; ?></button></td>
-						</tr>
-
-						<tr>
-							<td colspan="2">
-
-							</td>
-						</tr>
-						</table>
-					</div>
-				</div>
-			</div>
-
-			<div id="monitorFlows" class="ui-widget">
-				<div class="ui-widget-content ui-corner-all aix-style-observer-widget">
-					<h3 class="ui-widget-header ui-corner-all"><span class="left-icons ui-icon ui-icon-triangle-1-s"></span><?php echo $Text['latest_movements'];?> <span class="loadAnim floatRight"><img class="loadSpinner" src="img/ajax-loader.gif"/></span></h3>
-					<table id="list_account" class="tblListingDefault">
-					<thead>
-						<tr>
-							<th><?php echo $Text['account'];?></th>
-							<th><?php echo $Text['uf_short'];?></th>
-							<th><?php echo $Text['transfer_type'];?></th>
-
-							<th class="textAlignRight"><?php echo $Text['amount'];?></th>
-							<th class="textAlignRight"><?php echo $Text['balance'];?></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>{account_id}</td>
-							<td>{uf_id}</td>
-							<td>{method}</td>
-							<td><p class="textAlignRight"><span class="formatQty">{quantity}</span></p></td>
-							<td><p class="textAlignRight"><span class="formatQty">{balance}</span></p></td>
-						</tr>
-					</tbody>
-					</table>
-				</div>
-			</div>
 
 
 
@@ -871,74 +822,6 @@
 			</div>
 
 
-			<div id="monitorUFs" class="ui-widget">
-				<div class="ui-widget-content ui-corner-all aix-style-observer-widget">
-					<h3 class="ui-widget-header ui-corner-all"><span class="left-icons ui-icon ui-icon-triangle-1-s"></span><?php echo $Text['negativeUfs'];?><span class="loadAnim floatRight"><img class="loadSpinner" src="img/ajax-loader.gif"/></span></h3>
-
-						<table id="negative_ufs" class="tblListingDefault">
-							<thead>
-								<tr>
-									<th class="textAlignRight"><?php echo $Text['uf_short'];?></th>
-									<th class="textAlignLeft"><?php echo $Text['name'];?></th>
-									<th class="textAlignRight"><?php echo $Text['balance'];?></th>
-									<th><?php echo $Text['lastUpdate'];?></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><p class="textAlignRight">{uf}</p></td>
-									<td><p class="textAlignLeft">{name}</p></td>
-									<td><p class="textAlignRight"><span class="negativeBalance">{balance}</span></p></td>
-									<td>{last_update}</td>
-								</tr>
-							</tbody>
-						</table>
-
-				</div>
-			</div>
-
-			<div id="monitorGlobals" class="ui-widget">
-				<div class="ui-widget-content ui-corner-all aix-style-observer-widget">
-					<h3 class="ui-widget-header ui-corner-all"><span class="left-icons ui-icon ui-icon-triangle-1-s"></span><?php echo $Text['name_cash_account']; ?><span class="loadAnim floatRight hidden"><img class="loadSpinner" src="img/ajax-loader.gif"/></span></h3>
-					<table id="dailyStats" class="tblListingDefault">
-						<tbody>
-							<tr><td><p><?php echo $Text['totalIncome'];?></p></td><td><p class="textAlignRight">{income}</p></td></tr>
-							<tr><td><p><?php echo $Text['totalSpending'];?></p></td><td><p class="textAlignRight">{spending}</p></td></tr>
-							<tr><td><p><?php echo $Text['balance'];?></p></td><td><p class="textAlignRight">{balance}</p></td></tr>
-						</tbody>
-					</table>
-
-				</div>
-			</div>
-
-
-			<div id="monitorStock" class="ui-widget hidden">
-				<div class="rightCol-Observer ui-widget-content ui-corner-all  aix-style-observer-widget">
-					<h3 class="ui-widget-header ui-corner-all"><span class="left-icons ui-icon ui-icon-triangle-1-s"></span><?php echo $Text['negativeStock'];?><span class="loadAnim floatRight hidden"><img class="loadSpinner" src="img/ajax-loader.gif"/></span></h3>
-
-						<table id="min_stock" class="tblListingDefault">
-							<thead>
-								<tr>
-									<th><?php echo $Text['id'];?></th>
-									<th><?php echo $Text['product_name'];?></th>
-									<th><?php echo $Text['provider_name'];?></th>
-									<th><?php echo $Text['minStock'];?></th>
-									<th><?php echo $Text['curStock'];?></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>{id}</td>
-									<td>{stock_item}</td>
-									<td>{stock_provider}</td>
-									<td>{stock_min}</td>
-									<td class="negativeBalance">{stock_actual}</td>
-								</tr>
-							</tbody>
-						</table>
-
-				</div>
-			</div>
 
 
 		</div>

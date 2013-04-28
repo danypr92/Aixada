@@ -77,8 +77,22 @@
 	<div id="stagewrap">
 	
 		<div class="aix-layout-center60 ui-widget"> 
-			
+
 			<div class="aix-style-entry-widget">
+				<h2><?php echo $Text['revisar_comandes'];?></h2>
+				<table>
+					<tr>
+						<td>
+							<button class="aix-layout-fixW150" id="btn_nav_revise"><?php echo $Text['nav_wiz_revise_order']; ?></button>
+						</td>
+						<td><p><?php echo $Text['desc_revise']; ?></p></td>
+					</tr>
+					
+				</table>
+			</div>		
+		
+			<div class="aix-style-entry-widget">
+				<h2><?php echo $Text['revisar_cistelles'];?></h2>
 				<table>
 					<tr>
 						<td>
@@ -89,50 +103,6 @@
 				</table>
 			</div>
 	
-			<div class="aix-style-entry-widget">
-				<h2><?php echo $Text['primer_torn'];?></h2>
-				<table>
-					<tr>
-						<td>
-							<button class="aix-layout-fixW150" id="btn_nav_revise"><?php echo $Text['nav_wiz_revise_order']; ?></button>
-						</td>
-						<td><p><?php echo $Text['desc_revise']; ?></p></td>
-					</tr>
-					
-					<tr>
-						<td>
-							<button class="aix-layout-fixW150" id="btn_nav_cash"><?php echo $Text['nav_wiz_cashbox']; ?></button>
-						</td>
-						<td><p><?php echo $Text['desc_cashbox']; ?></p></td>
-					</tr>
-				</table>
-			</div>		
-
-			<div class="aix-style-entry-widget">
-				<h2><?php echo $Text['segon_torn']; ?></h2>
-				<table>
-					<tr>
-						<td>
-							<button class="aix-layout-fixW150" id="btn_nav_stock"><?php echo $Text['nav_mng_stock']; ?></button>
-						</td>
-						<td><p><?php echo $Text['desc_stock']; ?></p></td>
-					</tr>
-					
-					<tr>
-						<td>
-							<button class="aix-layout-fixW150" id="btn_nav_orders"><?php echo $Text['nav_mng_orders']; ?></button>
-						</td>
-						<td><p><?php echo $Text['desc_print_orders']; ?></p></td>
-					</tr>
-					<tr>
-						<td>
-							<button class="aix-layout-fixW150" id="btn_nav_stats"><?php echo $Text['nav_report_status']; ?></button>
-						</td>
-						<td><p><?php echo $Text['desc_stats']; ?></p></td>
-					</tr>
-					
-				</table>
-			</div>				
 		</div>
 		
 	
