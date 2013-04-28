@@ -278,7 +278,7 @@ $Text['old_pwd'] = "Contraseña antigua";
  *			Navigation
  */
 $Text['nav_home'] = "Inicio";
-$Text['nav_wiz'] = "Hacer cestas";
+$Text['nav_wiz'] = "Preparar cestas";
 	$Text['nav_wiz_arrived'] = "Productos que no han llegado";
 	$Text['nav_wiz_validate'] = "Validar";
 	$Text['nav_wiz_open'] = "Abrir";
