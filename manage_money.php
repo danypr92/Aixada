@@ -612,7 +612,7 @@
 			<div class="aix-style-highlight-withdrawl ui-corner-all"> 
 			<div class="ui-widget-content ui-corner-all" >
 				<h2 class="ui-widget-header ui-corner-all"><?php echo $Text['widthdraw_cashbox'];?> <span class="loadAnim floatRight hidden" id="withdrawAnim"><img src="img/ajax-loader.gif"/></span></h2>
-				<p id="withdrawMsg" class="ui-corner-all></p>
+				<p id="withdrawMsg" class="ui-corner-all"></p>
 				<div id="withdraw_cash_content" class="padding10x5">
 					<form id="withdraw_form">
 						<input type="hidden" name="account_id" value="-3"/>
