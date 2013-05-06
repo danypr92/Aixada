@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css"   media="screen" href="css/aixada_main.css" />
   	<link rel="stylesheet" type="text/css"   media="print"  href="css/print.css" />
   	<link rel="stylesheet" type="text/css"   media="screen" href="js/aixadacart/aixadacart.css" />
-  	<link rel="stylesheet" type="text/css"   media="screen" href="js/fgmenu/fg.menu.css"   />
+  	<link rel="stylesheet" typhe="text/css"   media="screen" href="js/fgmenu/fg.menu.css"   />
     <link rel="stylesheet" type="text/css"   media="screen" href="css/ui-themes/<?=$default_theme;?>/jqueryui.css"/>
 
 
@@ -61,7 +61,7 @@
 		btnType		: 'save',
 		autoSave	: 5000,
 		loadSuccess : updateCartLabel,
-		submitComplete : updateCartLabel,
+		submitComplete : reloadCartAfterCommit,
 		submitError : function (err_msg){
 
 			//foreign key exception; could be that orderable products have been changed while ordering and
@@ -363,8 +363,19 @@
 
 	});//end event listener for product list
 
+	//
+	function reloadCartAfterCommit(){
+		updateCartLabel();
+		var dateText = $.getSelectedDate('#datepicker');
+		$('#cartLayer').aixadacart('loadCart',{
+			loadCartURL		: 'php/ctrl/ShopAndOrder.php?oper=get'+what+'Cart&date='+dateText,
+			date 			: dateText
+		}); //end loadCart
+	}
+		
 	//update the cart show/hide button
 	function updateCartLabel (){
+		
     	var nItems = $('#cartLayer').aixadacart('countItems');
         var strItems = (nItems == 1) ? "<?=$Text['product_singular']?>" : "<?= $Text['product_plural']?>";
     	var label = "<?=$Text['btn_view_cart'];?> ("+nItems+")";

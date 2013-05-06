@@ -79,14 +79,17 @@ create table aixada_provider (
   picture 			varchar(255) 	default null,
   notes  			text 			default null,
   active     	  	tinyint 		default 1,
+  transport_fee_type_id    int      default null,
   responsible_uf_id	int     		default null,
   offset_order_close int			default 4, 			/* default offset closing of order in days*/
   ts			  	timestamp 		not null default current_timestamp,
   primary key (id),
   key (active),
-  foreign key (responsible_uf_id) references aixada_uf(id)
-) engine=InnoDB default character set utf8 collate utf8_general_ci;
+  foreign key (responsible_uf_id) references aixada_uf(id),
+  foreign key (transport_product_ref ) references aixada_product(id),
+  foreign key (transport_fee_type_id) references aixada_fee_type(id)
 
+) engine=InnoDB default character set utf8 collate utf8_general_ci;
 
 
 
@@ -465,3 +468,11 @@ create table aixada_price (
   foreign key (operator_id) references aixada_user(id)
 ) engine=InnoDB default character set utf8 collate utf8_general_ci;
 
+/**
+ * Aixada fee Type. How to distribute transportation costs
+ **/
+create table aixada_fee_type(
+  id   				int				not null,
+  description		varchar(255) 	not null, 
+  primary key (id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8;

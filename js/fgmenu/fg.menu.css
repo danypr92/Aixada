@@ -12,7 +12,7 @@ Date:		September 2008
 .fg-menu, .fg-menu ul { list-style-type:none; padding: 0; margin:0; }
 
 .fg-menu { position:relative; }
-.fg-menu-flyout .fg-menu { position:static; }
+.fg-menu-flyout .fg-menu { position:static; z-index:1000}
 
 .fg-menu ul { position:absolute; top:0; }
 .fg-menu ul ul { top:-1px; }

@@ -450,13 +450,14 @@ end|
  *  Furthermore it is important to note that the price delivered includes IVA and Rev Tax!! There is no 
  *  need to calcuate this at a later point in time (upon validation for example). 
  */
-drop procedure if exists get_products_detail|
+drop procedure if exists get_products_detail;
 create procedure get_products_detail(	in the_provider_id int, 
 										in the_category_id int, 
 										in the_like varchar(255),
 										in the_date date,
 										in include_inactive boolean,
-										in the_product_id int)
+										in the_product_id int,
+										in include_transport boolean)
 begin
 	
 	declare today date default date(sysdate());
@@ -509,6 +510,10 @@ begin
     	
     end if;
     
+    if not include_transport then
+    	set wherec 	= concat(wherec, " and p.orderable_type_id != 3 ");
+    end if;
+    
   
 	set @q = concat("
 	select
@@ -532,6 +537,7 @@ begin
 		",wherec,"
 		and p.rev_tax_type_id = t.id
 		and p.iva_percent_id = iva.id 
+		
 	order by p.name asc, p.id asc;");
 	
 	prepare st from @q;

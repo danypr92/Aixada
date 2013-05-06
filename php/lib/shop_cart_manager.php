@@ -139,18 +139,34 @@ class shop_cart_manager extends abstract_cart_manager {
     		$arrIva[$i] = (isset($arrIva[$i]) && $arrIva[$i] != '')? $arrIva[$i]:0;
     		$arrRevTax[$i] = (isset($arrRevTax[$i]) && $arrRevTax[$i] != '')? $arrRevTax[$i]:0;
     		
-    		$this->_rows[] = new shop_item(
-					     				 $arrProdId[$i], 
+    		$this->_rows[] = $this->new_item(	 $arrProdId[$i], 
 					     				 $arrQuant[$i],
-					     				 $this->_cart_id, 
-					     				 $arrIva[$i],
-					     				 $arrRevTax[$i],
+					     				 $arrPrice[$i],
 					     				 $order_item_id,
-					     				 $arrPrice[$i]
+    									 $arrIva[$i],
+					     				 $arrRevTax[$i]
 					     				 );
     	}
+    	
   	}
 
+  /**
+   *  function to create one iem from an aixada_shop_item
+  */
+  	
+  protected function new_item( $prodId, $quant, $price, $item_id, $iva, $revTax ) {
+  	return new shop_item(
+  			$prodId,
+  			$quant,
+  			$this->_cart_id,
+  			$iva,
+  			$revTax,
+  			$item_id,
+  			$price
+  	);
+  	 
+  }
+  	
 
   /**
    * abstract function to delete the rows of a cart from an aixada_shop_item
@@ -212,10 +228,10 @@ class shop_cart_manager extends abstract_cart_manager {
 	  		    	
 
     }	
+    
   
-  
-  
-
 }
+
+
 
 ?>

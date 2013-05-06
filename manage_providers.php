@@ -61,7 +61,9 @@
 		
 
 		//data for constructing the select options for the provider form
-		var gProviderSelects = [['aixada_uf', 'sResponsibleUfId','id','name']];
+		var gProviderSelects = [['aixada_uf', 'sResponsibleUfId','id','name'],
+								['aixada_fee_type','sTransportFeeType','id','description'],
+								];
 
 		//data for constructing the select options for the product form
 		//format is: [table, destinationClassSelector, field1, field2,...]
@@ -439,8 +441,13 @@
 					tds.eq(3).text("<?=$Text['orderable'];?>");
 					tds.eq(10).text(""); //delete stock info
 					tds.eq(11).text("");
-				}
+				
 
+				//transport
+				} else if (tds.eq(3).text() == "3"){
+					tds.eq(3).text("<?=$Text['transport'];?>");
+				}
+			
 				//active
 				if (tds.eq(4).children('p:first').text() == "1"){
 					tds.eq(4).children('p:first').html('<span class="ui-icon ui-icon-check"></span>').addClass('aix-style-ok-green ui-corner-all');
@@ -1678,6 +1685,20 @@
 							<td><label for="notes"><?php echo $Text['notes'];?></label></td>
 							<td colspan="5"><textarea class="ui-widget-content ui-corner-all textareaMax" id="notes" name="notes">{notes}</textarea></td>
 						</tr>
+						<tr>
+							<td colspan="5">&nbsp;</td>
+						</tr>
+						<tr><td><label for="transport_label"><?php echo $Text['transport_label'];?></label></td><td colspan="4">&nbsp;</td></tr>
+						<tr>
+							<td><label for="transport_fee_type_id"><?php echo $Text['transport_fee_type'];?></label></td>
+							<td>
+								<input type="hidden" name="transport_fee_type_id" value="{transport_fee_type_id}" />
+								<span class="textAlignLeft sTransportFeeType"></span>
+							</td>							
+														
+						</tr>
+						
+						
 						<tr>
 							<td colspan="5">&nbsp;</td>
 						</tr>

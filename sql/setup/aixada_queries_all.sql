@@ -2220,13 +2220,14 @@ end|
  *  Furthermore it is important to note that the price delivered includes IVA and Rev Tax!! There is no 
  *  need to calcuate this at a later point in time (upon validation for example). 
  */
-drop procedure if exists get_products_detail|
+drop procedure if exists get_products_detail;
 create procedure get_products_detail(	in the_provider_id int, 
 										in the_category_id int, 
 										in the_like varchar(255),
 										in the_date date,
 										in include_inactive boolean,
-										in the_product_id int)
+										in the_product_id int,
+										in include_transport boolean)
 begin
 	
 	declare today date default date(sysdate());
@@ -2279,6 +2280,10 @@ begin
     	
     end if;
     
+    if not include_transport then
+    	set wherec 	= concat(wherec, " and p.orderable_type_id != 3 ");
+    end if;
+    
   
 	set @q = concat("
 	select
@@ -2302,6 +2307,7 @@ begin
 		",wherec,"
 		and p.rev_tax_type_id = t.id
 		and p.iva_percent_id = iva.id 
+		
 	order by p.name asc, p.id asc;");
 	
 	prepare st from @q;
@@ -4491,12 +4497,16 @@ begin
       aixada_account.account_id,
       aixada_account.quantity,
       aixada_account.payment_method_id,
+      aixada_payment_method.description as payment_method,
       aixada_account.currency_id,
+      aixada_currency.name as currency,
       aixada_account.description,
       aixada_account.operator_id,
       aixada_account.ts,
       aixada_account.balance 
-    from aixada_account ";
+    from aixada_account 
+    left join aixada_payment_method as aixada_payment_method on aixada_account.payment_method_id=aixada_payment_method.id
+    left join aixada_currency as aixada_currency on aixada_account.currency_id=aixada_currency.id";
   set @lim = ' ';				 
  if the_filter is not null and length(the_filter) > 0 then set @lim = ' where '; end if;
   set @lim = concat(@lim, the_filter, ' order by ', the_index, ' ', the_sense, ' limit ', the_start, ', ', the_limit);
@@ -4537,6 +4547,22 @@ begin
       aixada_currency.name,
       aixada_currency.one_euro 
     from aixada_currency ";
+  set @lim = ' ';				 
+ if the_filter is not null and length(the_filter) > 0 then set @lim = ' where '; end if;
+  set @lim = concat(@lim, the_filter, ' order by active desc, ', the_index, ' ', the_sense, ' limit ', the_start, ', ', the_limit);
+  set @q = concat(@q, @lim);
+  prepare st from @q;
+  execute st;
+  deallocate prepare st;
+end|
+
+drop procedure if exists aixada_fee_type_list_all_query|
+create procedure aixada_fee_type_list_all_query (in the_index char(50), in the_sense char(4), in the_start int, in the_limit int, in the_filter text)
+begin
+  set @q = "select
+      aixada_fee_type.id,
+      aixada_fee_type.description 
+    from aixada_fee_type ";
   set @lim = ' ';				 
  if the_filter is not null and length(the_filter) > 0 then set @lim = ' where '; end if;
   set @lim = concat(@lim, the_filter, ' order by active desc, ', the_index, ' ', the_sense, ' limit ', the_start, ', ', the_limit);
@@ -4675,13 +4701,13 @@ create procedure aixada_order_item_list_all_query (in the_index char(50), in the
 begin
   set @q = "select
       aixada_order_item.id,
-      aixada_order_item.order_id,
-      aixada_order_item.unit_price_stamp,
-      aixada_order_item.date_for_order,
       aixada_order_item.uf_id,
       aixada_uf.name as uf_name,
       aixada_order_item.favorite_cart_id,
       aixada_cart.name as favorite_cart,
+      aixada_order_item.order_id,
+      aixada_order_item.unit_price_stamp,
+      aixada_order_item.date_for_order,
       aixada_order_item.product_id,
       aixada_product.name as product,
       aixada_order_item.quantity,
@@ -4855,9 +4881,11 @@ begin
   set @q = "select
       aixada_product_orderable_for_date.id,
       aixada_product_orderable_for_date.product_id,
+      aixada_product.name as product,
       aixada_product_orderable_for_date.date_for_order,
       aixada_product_orderable_for_date.closing_date 
-    from aixada_product_orderable_for_date ";
+    from aixada_product_orderable_for_date 
+    left join aixada_product as aixada_product on aixada_product_orderable_for_date.product_id=aixada_product.id";
   set @lim = ' ';				 
  if the_filter is not null and length(the_filter) > 0 then set @lim = ' where '; end if;
   set @lim = concat(@lim, the_filter, ' order by active desc, ', the_index, ' ', the_sense, ' limit ', the_start, ', ', the_limit);
@@ -4888,11 +4916,14 @@ begin
       aixada_provider.picture,
       aixada_provider.notes,
       aixada_provider.active,
+      aixada_provider.transport_fee_type_id,
+      aixada_fee_type.description as transport_fee_type,
       aixada_uf.id as responsible_uf_id,
 aixada_uf.name as responsible_uf_name,
       aixada_provider.offset_order_close,
       aixada_provider.ts 
     from aixada_provider 
+    left join aixada_fee_type as aixada_fee_type on aixada_provider.transport_fee_type_id=aixada_fee_type.id
     left join aixada_uf as aixada_uf on aixada_provider.responsible_uf_id=aixada_uf.id";
   set @lim = ' ';				 
  if the_filter is not null and length(the_filter) > 0 then set @lim = ' where '; end if;
@@ -4938,22 +4969,6 @@ begin
     from aixada_shop_item 
     left join aixada_cart as aixada_cart on aixada_shop_item.cart_id=aixada_cart.id
     left join aixada_product as aixada_product on aixada_shop_item.product_id=aixada_product.id";
-  set @lim = ' ';				 
- if the_filter is not null and length(the_filter) > 0 then set @lim = ' where '; end if;
-  set @lim = concat(@lim, the_filter, ' order by active desc, ', the_index, ' ', the_sense, ' limit ', the_start, ', ', the_limit);
-  set @q = concat(@q, @lim);
-  prepare st from @q;
-  execute st;
-  deallocate prepare st;
-end|
-
-drop procedure if exists aixada_shopping_dates_list_all_query|
-create procedure aixada_shopping_dates_list_all_query (in the_index char(50), in the_sense char(4), in the_start int, in the_limit int, in the_filter text)
-begin
-  set @q = "select
-      aixada_shopping_dates.shopping_date,
-      aixada_shopping_dates.available 
-    from aixada_shopping_dates ";
   set @lim = ' ';				 
  if the_filter is not null and length(the_filter) > 0 then set @lim = ' where '; end if;
   set @lim = concat(@lim, the_filter, ' order by active desc, ', the_index, ' ', the_sense, ' limit ', the_start, ', ', the_limit);

@@ -60,11 +60,11 @@ try{
 	     * elseif like != '' 		search product names
 	     */
 	    case 'getOrderProducts':
-	    	printXML(stored_query_XML_fields('get_products_detail',get_param('provider_id',0), get_param('category_id',0), get_param('like',''), get_param('date'), get_param('all',0), get_param('product_id',0)));
+	    	printXML(stored_query_XML_fields('get_products_detail',get_param('provider_id',0), get_param('category_id',0), get_param('like',''), get_param('date'), get_param('all',0), get_param('product_id',0),false));
 	    	exit;
 	
 	    case 'getShopProducts':
-	    	printXML(stored_query_XML_fields('get_products_detail',get_param('provider_id',0), get_param('category_id',0), get_param('like',''), get_param('date',0), get_param('all',0), get_param('product_id',0)));
+	    	printXML(stored_query_XML_fields('get_products_detail',get_param('provider_id',0), get_param('category_id',0), get_param('like',''), get_param('date',0), get_param('all',0), get_param('product_id',0),true));
 	    	exit;
 	    	
   		case 'getPreorderableProducts':
@@ -72,7 +72,7 @@ try{
 	        exit;
 	        
   		case 'getProductDetail':
-  			printXML(stored_query_XML_fields('get_products_detail', 0,0,'',0,get_param('all',1),get_param('product_id')));
+  			printXML(stored_query_XML_fields('get_products_detail', 0,0,'',0,get_param('all',1),get_param('product_id'),false));
 			exit;	        
 	
 

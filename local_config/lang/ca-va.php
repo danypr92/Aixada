@@ -885,4 +885,8 @@ $Text['ti_import_providers'] = "Importar proveïdor";
 $Text['head_ti_import'] = "Assistent d'importació";
 
 
+$Text['transport_label'] = "Transport";
+$Text['transport_fee_type'] = "Distribució del coste";
+$Text['transport'] = "Cost transport"; //product type
+
 ?>

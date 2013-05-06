@@ -75,6 +75,7 @@
 						var date = $.datepicker.formatDate(outDateFormat, dd);
 						var dateclass = "Date-"+gdates[i];
 						var pastclass = (dd < today)? 'dim40':'';
+						pastclass = '';
 					
 						apstr += '<th class="dateth clickable '+ pastclass +' '+dateclass+'" colDate="'+gdates[i]+'">'+date+'</th>';
 

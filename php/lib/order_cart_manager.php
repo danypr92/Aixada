@@ -118,23 +118,45 @@ class order_cart_manager extends abstract_cart_manager {
             	//if product id exists in closed orders, don't update it. 
             	$closed = array_search($arrProdId[$i], $this->_closed_orders);
 
-            	if ($closed === false){
+            	if ($closed === false and  ! array_key_exists( $arrProdId[$i], $this->product_filter) ){
 	                $this->_rows[] = new order_item($this->_date,
 	                                                $this->_uf_id,
 	                                                $arrProdId[$i], 
 	                                                $arrQuant[$i],  
 	                                                $this->_cart_id, 
 	                                                $arrPrice[$i]);
+	                
+	                
+	                
             	}
             } 
                                                 
         }
     }
     
+
+    /**
+     *  function to create a new order 
+     */
+     
+  protected function new_item( $prodId, $quant, $price, $item_id, $iva, $revTax ,$uf = null) {
+  	        if ( is_null($uf) ) {
+  	        	$uf = $this->_uf_id;
+  	        }
+        	return new order_item(
+    			$this->_date,
+    			$uf,
+    			$prodId,
+    			$quant,
+    			$this->_cart_id,
+    			$price
+        	);    
+    }
     
 
     /**
-     * deletes rows in aixada_order_item for given uf and date. 
+     * 
+s rows in aixada_order_item for given uf and date. 
      * On every commit all order items are delete and then rewritten. 
      */
     protected function _delete_rows()
@@ -142,7 +164,21 @@ class order_cart_manager extends abstract_cart_manager {
     	$db = DBWrap::get_instance();
         
     	//only delete those order items which don't have an order_id yet. 
-    	$db->Execute("delete from aixada_order_item where uf_id=:1q and order_id is null and (date_for_order=:2q or date_for_order='1234-01-23')", $this->_uf_id, $this->_date);	
+    	$sqldel = "delete from aixada_order_item 
+    			   where 
+    			      uf_id=:1q and order_id is null and 
+    			      (date_for_order=:2q or date_for_order='1234-01-23')";	
+    	$db->Execute( $sqldel , $this->_uf_id, $this->_date);	
+    	
+    	// delete all transport fees
+    	$sqldel = "delete from aixada_order_item
+    			   where
+    			      order_id is null and
+    			      (date_for_order=:1q or date_for_order='1234-01-23') and
+    			      product_id in ( select id from aixada_product where orderable_type_id = 3)";
+    	$db->Execute( $sqldel , $this->_date);
+    	
+    	
     }
     
     

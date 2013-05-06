@@ -837,7 +837,6 @@ $Text['search_provider'] = "Search for provider";
 $Text['msg_err_export'] = "Error in exporting data";
 $Text['export_uf'] = "Export Members";
 $Text['btn_export'] = "Export";
-
 $Text['ti_visualization'] = "Visualization";
 $Text['file_name'] = "File name";
 $Text['active_ufs'] = "Only active HU's";
@@ -854,8 +853,6 @@ $Text['correct_stock_frase'] = "Current stock is not";
 $Text['stock_but'] = "but"; //current stock is not x units but...
 $Text['stock_info'] = "Note: you can consult all previous stock movements (adds, corrections, losses) by clicking on the product name below!";
 $Text['stock_info_product'] = "Note: consult all previous stock movements (adds, corrections and overall loss) from the Manage &gt; Products &gt; Stock page.";
-
-
 $Text['msg_confirm_prov'] = "Are you sure you want to export all providers?"; 
 $Text['msg_err_upload'] = "An error occured during uploading the file "; 
 $Text['msg_import_matchcol'] = "Need to match up database entries with table rows! Please assign the required matching column "; //+ here then comes the name of the matching column, e.g. custom_product_ref
@@ -884,6 +881,8 @@ $Text['ti_import_products'] = "Import or update products for ";
 $Text['ti_import_providers'] = "Import providers"; 
 $Text['head_ti_import'] = "Import wizard";
 
+$Text['transport_label'] = "Transport cost";
+$Text['transport_fee_type'] = "Distribution type";
 
 //$Text[''] = ""; 
 
