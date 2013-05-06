@@ -94,16 +94,7 @@
 						resetDeposit();
 						return false;
 
-					} else if (uf_id == gTornUfId){ //cannot validate your own cart
-						$.showMsg({
-							msg:"<?php echo $Text['msg_err_validate_self'];?>",
-							type: 'error'});
-						resetFields();
-						resetDeposit();
-						return false;
-
-					}
-
+					} 
 
 					//activate the deposit pane
 					$('.insert_uf_id').html('<strong>'+uf_id+'</strong>');
@@ -209,15 +200,6 @@
 				var validated = $(this).attr('validated');
 				var cart_id = $(this).attr('shopId');
 				var date_for_shop = $(this).attr('dateForShop');
-
-				if (uf_id == gTornUfId){ //cannot validate your own cart
-					$.showMsg({
-						msg:"<?php echo $Text['msg_err_validate_self'];?>",
-						type: 'error'});
-					resetFields();
-					resetDeposit();
-					return false;
-				}
 
 				//means we come from cart observe
 				if (uf_id > 0){
