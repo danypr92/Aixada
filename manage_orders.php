@@ -428,6 +428,7 @@
 					
 					if (!$(this).hasClass('editable') && gSection == 'review'){
 						var pid = $(this).prev().attr('row')
+						log.write("pid=" + pid )
 						$(this).children(':first')
 							.addClass('editable')
 							.editable('php/ctrl/Orders.php', {			//init the jeditable plugin

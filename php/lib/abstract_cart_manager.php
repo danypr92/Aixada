@@ -214,10 +214,9 @@ class abstract_cart_manager {
             $this->_delete_rows();
             if ($hasItems) {
             	$this->_commit_rows();
+            	
+            	$this->_calculate_transport_cost($db);
             	            	
-            	$this->_rows = array();
-            	$this->calculate_transport_fee($db,$this->_date,$this->_uf_id);
-            	$this->_commit_rows();
             } else {
             	$this->_delete_cart();
             }
@@ -307,7 +306,7 @@ class abstract_cart_manager {
     /**
      * Gets Providers with transportation fees and info of the product associated to the fee
      */
-    private function get_providers_with_transportation_fees( $db) {
+    protected function get_providers_with_transportation_fees( $db) {
     	// All providers with fees with any product in my cart
     	
     	$sql = "select
@@ -335,95 +334,25 @@ class abstract_cart_manager {
 
     protected function filter_transport_products($db,$uf,$date)
     {
-   
-    	//only delete those order items which don't have an order_id yet.
-    	$sqltrans = "SELECT product_id
-    			   from aixada_order_item 
-    			   where 
-    			     uf_id=:1q and 
-    			     order_id is null and 
-    			     (date_for_order=:2q or date_for_order='1234-01-23') and
-    			     product_id in ( select id from aixada_product where orderable_type_id=3)";
-    	
-    	$rs = $db->Execute( $sqltrans, $uf, $date);
     	$transport_prods = [];
-    	while ( $row = $rs->fetch_array()) {
-    		$transport_prods[$row["product_id"]] = 1;
-    	}
-    	
     	return $transport_prods;
-   }
+    }
     
-    private function get_totals_fees_by_provider($db, $date ) {
-
-    	// For all providers with feeds presents in the cart
-    	//       gets its total counters
-    	//
-
-    	$sql = "SELECT
-    			 pder.id as provider_id,
-    			 sum(quantity) as quantity,
-    			 sum(quantity * unit_price_stamp) as cost
-    			FROM
-    			 aixada_order_item item
-    			 inner join aixada_product prod on ( item.product_id = prod.id)
-    			 inner join aixada_provider pder on
-    			   ( prod.provider_id = pder.id and pder.transport_fee_type_id!=0 )
-    			WHERE
-    			 DATE(item.date_for_order) = :1q and prod.orderable_type_id != 3
-
-    			group by 1
-    			having sum(quantity) >0
-    			order by 1
-    			";
-
-    	$rs = $db->Execute( $sql, $date);
-    	$providers = [];
-    	while ( $row = $rs->fetch_array()) {
-    		$providers[$row["provider_id"]] = $row;
-    	}
+   
+   protected function get_totals_fees_by_provider($db, $date ) {
+   		$providers = [];
     	return $providers;
+   }
 
-    }
+   protected function get_uf_totals_fees_by_provider($db, $date) {
+   		$providers = [];
+   		return $providers;
+   }
 
-    private function get_uf_totals_fees_by_provider($db, $date) {
-
-    	// For all providers with feeds presents in the cart
-    	//       gets its cart total counters
-    	//
-
-    	$sql = "SELECT
-    			  pder.id as provider_id,
-    			  item.uf_id as uf_id,
-    			  sum(quantity) as quantity,
-    			  sum(quantity * unit_price_stamp) as cost
-    			FROM
-    			  aixada_order_item item
-    			  inner join aixada_product prod on ( item.product_id = prod.id)
-    			  inner join aixada_provider pder on
-    			  ( prod.provider_id = pder.id and pder.transport_fee_type_id!=0  )
-    			WHERE
-    			  DATE(item.date_for_order) = :1q and prod.orderable_type_id != 3 
-
-    			group by 1,2
-    			having sum(quantity) >0
-    			order by 1,2
-    			";
-
-    	$rs = $db->Execute( $sql, $date);
-    	$providers = [];
-    	while ( $row = $rs->fetch_array()) {
-    		
-    		if ( ! array_key_exists($row["provider_id"], $providers ) ) {
-    			$providers[$row["provider_id"]] = [];
-    		}
-    		$providers[$row["provider_id"]][$row["uf_id"]] = $row; 		
-    	}
-
-    	return $providers;
-
-    }
-
+   protected function _calculate_transport_cost($db)
+   {
+   }
+   
 
     /**
      * Transportation cost
@@ -443,12 +372,12 @@ class abstract_cart_manager {
 	    			case 1:
 	    				;
 	    				$units = $uf_info["cost"];
-	    				$cost  = $prov_info["cost"] *  ( 1 / ( $total_info["cost"] ) ) ;
+	    				$cost  = $prov_info["cost"] / ( $total_info["cost"]  ) ;
 	    				break;
 	    				 
 	    			case 2:
 	    				$units = $uf_info["quantity"];
-	    				$cost  = $prov_info["cost"] *  ( 1 / ( $total_info["quantity"] ) );
+	    				$cost  = $prov_info["cost"]  / ( $total_info["quantity"]  );
 	    				break;
 	    			
 	    			default:
@@ -467,6 +396,8 @@ class abstract_cart_manager {
     		}
     	}
     }
+    
+    
 
    
 }

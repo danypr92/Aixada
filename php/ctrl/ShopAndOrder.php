@@ -72,7 +72,7 @@ try{
 	        exit;
 	        
   		case 'getProductDetail':
-  			printXML(stored_query_XML_fields('get_products_detail', 0,0,'',0,get_param('all',1),get_param('product_id'),false));
+  			printXML(stored_query_XML_fields('get_products_detail', 0,0,'',0,get_param('all',1),get_param('product_id'),true));
 			exit;	        
 	
 
