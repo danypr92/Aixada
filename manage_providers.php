@@ -361,7 +361,7 @@
 		 	}				
 
 
-			isValidItem = $.checkSelect($(mi +' input[name=responsible_uf_id]'),['']);
+			isValidItem = $.checkSelect($(mi +' input[name=responsible_uf_id]'),['-1', '{responsible_uf_id}']);
 			if (!isValidItem){
 				isValid = false; 
 				err_msg += "<?=$Text['msg_err_select_responsibleuf'];?>" + "<br/><br/>"; 
@@ -739,7 +739,7 @@
 			}
 					
 
-			isValidItem = $.checkSelect($(mi +' input[name=responsible_uf_id]'),['']);
+			isValidItem = $.checkSelect($(mi +' input[name=responsible_uf_id]'),['-1', '{responsible_uf_id}']);
 			if (!isValidItem){
 				isValid = false; 
 				err_msg += "<?=$Text['msg_err_select_responsibleuf'];?>" + "<br/><br/>"; 
