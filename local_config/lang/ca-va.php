@@ -15,6 +15,8 @@ $Text['text_dir'] = "ltr"; // ('ltr' significa d'esquerra a dreta, 'rtl' per aes
  *  		Elements globals
  */
 $Text['coop_name'] = configuration_vars::get_instance()->coop_name;
+$Text['currency_sign'] = configuration_vars::get_instance()->currency_sign;
+$Text['currency_desc'] = "Euros";
 $Text['please_select'] = "Seleccioneu...";
 $Text['loading'] = "Si us plau, espere mentre es carreguen les dades...";
 $Text['search'] = "Cerca";
@@ -883,6 +885,26 @@ $Text['sel_matchcol'] = "Assignar columna ...";
 $Text['ti_import_products'] = "Importar o actualitzar els productes de "; 
 $Text['ti_import_providers'] = "Importar proveïdor"; 
 $Text['head_ti_import'] = "Assistent d'importació";
+
+$Text['withdraw_desc_banc'] = "Withdraw money from account or make transfer for provider payment.";
+$Text['deposit_desc_banc'] = "Register all incoming money to consum account.";
+$Text['deposit_banc'] = "Deposit to consume account";
+$Text['withdraw_banc'] = "Withdraw from consume account";
+$Text['deposit_sales_cash'] = "Deposit sales cash";
+$Text['ti_stock_report'] = "Stock report for "; 
+$Text['netto_stock'] = "Netto stock value"; 
+$Text['brutto_stock'] = "Brutto stock value"; 
+$Text['total_netto_stock'] = "Total netto stock value"; 
+$Text['total_brutto_stock'] = "Total brutto stock value"; 
+$Text['sales_total_pv'] = "Sales total for provider ";
+$Text['dates_breakdown'] = "Dates break down"; 
+$Text['price_brutto'] = "Price brutto"; 
+$Text['total_brutto'] = "Brutto total";
+$Text['total_netto'] = "Netto total";
+$Text['msg_err_oldPwdWrong'] = "Sorry, but you got your old password wrong. Please try again. "; 
+$Text['msg_err_adminStuff'] = "Insufficient access priviledges. Only Admin can do that!";
+$Text['msg_err_deactivate_prdrow'] = "This product cannot be deactivated because it has ordered items for certain dates. Deactivate the product for those individual dates first!";
+$Text['msg_err_deactivate_ir'] = "You cannot deactivate several dates for this product since certain dates contain already ordered items. Either turn off Instant Repeat or deactivate the ordered products/date individually.";
 
 
 $Text['transport_label'] = "Transport";

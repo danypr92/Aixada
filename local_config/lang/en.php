@@ -15,12 +15,15 @@ $Text['text_dir'] = "ltr"; // ('ltr' for left to right, 'rtl' for right to left)
  *  		Global things
  */
 $Text['coop_name'] = configuration_vars::get_instance()->coop_name;
+$Text['currency_sign'] = configuration_vars::get_instance()->currency_sign;
+$Text['currency_desc'] = "Euros"; 
 $Text['please_select'] = "Please select ...";
 $Text['loading'] = "Please wait while loading...";
 $Text['search'] = "Search";
 $Text['id'] = "id";
 $Text['uf_short'] = "HU";
 $Text['uf_long'] = "Household";
+
 
 
 /** 
@@ -183,8 +186,8 @@ $Text['adult'] = "Adult";
 /**
  *  			wiz stuff
  */
-$Text['deposit_cashbox'] = 'Deposit money'; 	//changed
-$Text['widthdraw_cashbox'] = 'Withdraw money';	//changed
+$Text['deposit_cashbox'] = 'Deposit money in cashbox'; 
+$Text['widthdraw_cashbox'] = 'Withdraw money from cashbox'; 
 $Text['current_balance'] = 'Current balance';
 $Text['deposit_type'] = 'Type of deposit';
 $Text['deposit_by_uf'] = 'Deposite by HU';
@@ -697,7 +700,7 @@ $Text['ostat_closed'] = "Order is closed";
 $Text['ostat_desc_fin_send'] = "Order has been finalized. Ref. number is: #";
 $Text['msg_err_past'] = "This is the past! <br/> Too late to change anything here.";
 $Text['msg_err_is_deactive_p'] = "This product has been deactivated. In order to set an orderable date, you have to activate it first by clicking its 'active' checkbox.";
-$Text['msg_err_deactivate_p'] = "You are about to deactivate a product. This means that all associated 'orderable' dates will be erased as well.<br/><br/>Are you sure you want to deactivate the product as such? As an alternative you can deactivate selected dates by clicking the corresponding table cells.";
+$Text['msg_err_deactivate_p'] = "You are about to deactivate a product. This means that all associated 'orderable' dates will be erased as well.<br/><br/>As an alternative you can deactivate selected dates by clicking the corresponding table cells.";
 $Text['msg_err_closing_date'] = "The closing date cannot be later than the order date!";
 $Text['msg_err_sel_col'] = "The selected column/date has no orderable products! You have to make at least one product orderable in order to be able to generate a date pattern.";
 $Text['msg_err_closing'] = "In order to modify the closing date, you need to make at least one product orderable.";
@@ -883,6 +886,27 @@ $Text['head_ti_import'] = "Import wizard";
 
 $Text['transport_label'] = "Transport cost";
 $Text['transport_fee_type'] = "Distribution type";
+$Text['withdraw_desc_banc'] = "Withdraw money from account or make transfer for provider payment.";
+$Text['deposit_desc_banc'] = "Register all incoming money to consum account.";
+$Text['deposit_banc'] = "Deposit to consume account";
+$Text['withdraw_banc'] = "Withdraw from consume account";
+$Text['deposit_sales_cash'] = "Deposit sales cash";
+$Text['ti_stock_report'] = "Stock report for "; 
+$Text['netto_stock'] = "Netto stock value"; 
+$Text['brutto_stock'] = "Brutto stock value"; 
+$Text['total_netto_stock'] = "Total netto stock value"; 
+$Text['total_brutto_stock'] = "Total brutto stock value"; 
+$Text['sales_total_pv'] = "Sales total for provider ";
+$Text['dates_breakdown'] = "Dates break down"; 
+$Text['price_brutto'] = "Price brutto"; 
+$Text['total_brutto'] = "Brutto total";
+$Text['total_netto'] = "Netto total";
+$Text['msg_err_oldPwdWrong'] = "Sorry, but you got your old password wrong. Please try again. "; 
+$Text['msg_err_adminStuff'] = "Insufficient access priviledges. Only Admin can do that!";
+
+$Text['msg_err_deactivate_prdrow'] = "This product cannot be deactivated because it has ordered items for certain dates. Deactivate the product for those individual dates first!";
+$Text['msg_err_deactivate_ir'] = "You cannot deactivate several dates for this product since certain dates contain already ordered items. Either turn off Instant Repeat or deactivate the ordered products/date individually.";
+
 
 //$Text[''] = ""; 
 

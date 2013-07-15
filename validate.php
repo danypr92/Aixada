@@ -319,7 +319,7 @@
 
 					$.ajax({
 						type: "POST",
-						url: "php/ctrl/Account.php?oper=deposit&account_id="+uf_account_id+"&quantity="+quantity+"&description="+description,
+						url: "php/ctrl/Account.php?oper=depositCashForUf&account_id="+uf_account_id+"&quantity="+quantity+"&description="+description,
 						beforeSend : function (){
 							$('#deposit .loadSpinner').show();
 						},
@@ -354,7 +354,7 @@
 					params	: 'oper=latestMovements',
 					loadOnInit: true,
 					rowComplete : function (rowIndex, row){
-						$.formatQuantity(row);
+						$.formatQuantity(row, "<?=$Text['currency_sign'];?>");
 					},
 					complete : function (rowCount){
 						$('#list_account tbody tr:even').addClass('rowHighlight');
@@ -397,6 +397,9 @@
                     autoReload: 103020,
                     beforeLoad : function(){
 						$('#negative_ufs .loadSpinner').show();
+					},
+					rowComplete : function (rowIndex, row){
+						$.formatQuantity(row, "<?=$Text['currency_sign'];?>");
 					},
 					complete : function(){
 						$('#negative_ufs .loadSpinner').hide();
@@ -787,7 +790,7 @@
 								<th><?=$Text['uf_short'];?></th>
 								<th class="textAlignCenter"><?=$Text['date_of_purchase'];?></th>
 								<th class="textAlignCenter"><?=$Text['validated'];?></th>
-								<th class="textAlignRight"><?=$Text['total'];?></th>
+								<th><p class="textAlignRight"><?=$Text['total'];?>&nbsp;</p></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -796,7 +799,7 @@
 								<td>{uf_id}</td>
 								<td>{date_for_shop}</td>
 								<td>{ts_validated}</td>
-								<td><p class="textAlignRight">{purchase_total}€</p></td>
+								<td><p class="textAlignRight">{purchase_total} <?php echo $Text['currency_sign'];?></p></td>
 							</tr>
 						</tbody>
 					</table>
@@ -804,6 +807,77 @@
 			</div>
 
 
+<<<<<<< HEAD
+=======
+			<div id="monitorUFs" class="ui-widget">
+				<div class="ui-widget-content ui-corner-all aix-style-observer-widget">
+					<h3 class="ui-widget-header ui-corner-all"><span class="left-icons ui-icon ui-icon-triangle-1-s"></span><?php echo $Text['negativeUfs'];?><span class="loadAnim floatRight"><img class="loadSpinner" src="img/ajax-loader.gif"/></span></h3>
+
+						<table id="negative_ufs" class="tblListingDefault">
+							<thead>
+								<tr>
+									<th class="textAlignRight"><?php echo $Text['uf_short'];?></th>
+									<th class="textAlignLeft"><?php echo $Text['name'];?></th>
+									<th class="textAlignRight"><?php echo $Text['balance'];?></th>
+									<th><?php echo $Text['lastUpdate'];?></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><p class="textAlignRight">{uf}</p></td>
+									<td><p class="textAlignLeft">{name}</p></td>
+									<td><p class="textAlignRight"><span class="formatQty">{balance}</span></p></td>
+									<td>{last_update}</td>
+								</tr>
+							</tbody>
+						</table>
+
+				</div>
+			</div>
+
+			<div id="monitorGlobals" class="ui-widget">
+				<div class="ui-widget-content ui-corner-all aix-style-observer-widget">
+					<h3 class="ui-widget-header ui-corner-all"><span class="left-icons ui-icon ui-icon-triangle-1-s"></span><?php echo $Text['name_cash_account']; ?><span class="loadAnim floatRight hidden"><img class="loadSpinner" src="img/ajax-loader.gif"/></span></h3>
+					<table id="dailyStats" class="tblListingDefault">
+						<tbody>
+							<tr><td><p><?php echo $Text['totalIncome'];?></p></td><td><p class="textAlignRight">{income}</p></td></tr>
+							<tr><td><p><?php echo $Text['totalSpending'];?></p></td><td><p class="textAlignRight">{spending}</p></td></tr>
+							<tr><td><p><?php echo $Text['balance'];?></p></td><td><p class="textAlignRight">{balance}</p></td></tr>
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+
+
+			<div id="monitorStock" class="ui-widget hidden">
+				<div class="rightCol-Observer ui-widget-content ui-corner-all  aix-style-observer-widget">
+					<h3 class="ui-widget-header ui-corner-all"><span class="left-icons ui-icon ui-icon-triangle-1-s"></span><?php echo $Text['negativeStock'];?><span class="loadAnim floatRight hidden"><img class="loadSpinner" src="img/ajax-loader.gif"/></span></h3>
+
+						<table id="min_stock" class="tblListingDefault">
+							<thead>
+								<tr>
+									<th><?php echo $Text['id'];?></th>
+									<th><?php echo $Text['product_name'];?></th>
+									<th><?php echo $Text['provider_name'];?></th>
+									<th><?php echo $Text['minStock'];?></th>
+									<th><?php echo $Text['curStock'];?></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>{id}</td>
+									<td>{stock_item}</td>
+									<td>{stock_provider}</td>
+									<td>{stock_min}</td>
+									<td class="negativeBalance">{stock_actual}</td>
+								</tr>
+							</tbody>
+						</table>
+
+				</div>
+			</div>
+>>>>>>> e83cb52123e8b84cf57972682edb35d5efa7a54f
 
 
 		</div>
@@ -834,7 +908,7 @@
 				<td>{id}</td>
 				<td class="textAlignCenter">{date_for_shop}</td>
 				<td class="textAlignCenter">{ts_validated}</td>
-				<td class="textAlignRight">{purchase_total}€</td>
+				<td class="textAlignRight">{purchase_total}<?php echo $Text['currency_sign'];?></td>
 			</tr>
 		</tbody>
 	</table>

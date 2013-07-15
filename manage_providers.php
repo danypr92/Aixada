@@ -492,6 +492,13 @@
 			})
 			//click on table row
 			.live("click", function(e){
+
+				//if we come from product search
+				if (gSelProvider == null) {
+					var pvid = $(this).attr('providerId');
+					gSelProvider = $('#tbl_providers tbody tr[providerId='+pvid+']');
+
+				}
 				
 				$('#tbl_products tbody tr').removeClass('ui-state-highlight');
 				gSelProduct = $(this);
@@ -530,6 +537,27 @@
 			}
 
 		});
+
+
+		/**
+		 *	search products
+		 */
+		$("#search").keyup(function(e){
+					var minLength = 3; 						//search with min of X characters
+					var searchStr = $("#search").val();
+					
+					if (searchStr.length >= minLength){
+						switchTo('searchProducts');
+						
+					  	$('#tbl_products tbody').xml2html("reload",{
+							params: 'oper=getShopProducts&date=&like='+searchStr
+						});
+					} else {
+						$('#tbl_products tbody').xml2html("removeAll");				//delete all product entries in the table if we are below minLength;
+						switchTo('cancelSearch');
+					}
+			e.preventDefault();						//prevent default event propagation. once the list is build, just stop here.
+		}); //end autocomplete
 
 
 		//import produts
@@ -883,6 +911,18 @@
 					}
 					break;
 
+				case 'searchProducts':
+					$('.setProviderName').html("&nbsp;");
+					$('.pgProviderOverview, .pgProviderEdit, .pgProviderNew, .pgProductEdit, .pgProductNew').hide();
+					$('.pgProductOverview').show();
+					$('#groupButtons').hide();
+					break;
+
+				case 'cancelSearch':
+					$('.pgProductOverview, .pgProviderEdit, .pgProviderNew, .pgProductEdit, .pgProductNew').hide();
+					$('.pgProviderOverview').show();
+					$('#groupButtons').show();
+					break;
 					
 				case 'editProvider':
 					$('.setProviderName').html(gSelProvider.children().eq(2).text());
@@ -1298,13 +1338,16 @@
 				    	<h1 class="pgProductNew">&nbsp;&nbsp;<span class="setProviderName"></span> - <?php echo $Text['ti_add_product']; ?></h1>
 		    		</div>
 		    		<div id="titleRightCol50">
+						<div class="floatRight pgProviderOverview pgProductOverview"><label for="search"><?php echo $Text['search_product'];?></label> <input id="search" value="" class="ui-widget-content ui-corner-all"/></div>
+						<br/><br/>
+						<div id="groupButtons">
 						<button class="floatRight pgProviderOverview" id="btn_new_provider"><?php echo $Text['btn_new_provider']; ?></button>
 						<button class="floatRight pgProductOverview" id="btn_new_product"><?php echo $Text['btn_new_product']; ?></button>&nbsp;
 						<button class="floatRight pgProductOverview" id="btn_import_products"><?php echo $Text['btn_import'] ; ?></button>
 						<button class="floatRight pgProviderOverview" id="btn_import_provider"><?php echo $Text['btn_import'] ; ?></button>
 						<button class="floatRight pgProductOverview" id="btn_product_export"><?php echo $Text['btn_export']; ?></button>
 						<button class="floatRight pgProviderOverview" id="btn_provider_export"><?php echo $Text['btn_export']; ?></button>
-						<!-- p class="providerOverview"><?php echo $Text['search_provider'];?>: <input id="search" class="ui-corner-all"/></p-->
+						</div>
 						<div class="floatRight aix-style-padding8x8 pgProductEdit pgProdutNew">
 							<span id="setProductPagination">1/5</span> <button id="btn_prev_product"><?=$Text['previous'];?></button><button id="btn_next_product"><?=$Text['next'];?></button>&nbsp;
 						</div>
@@ -1365,7 +1408,7 @@
 				<div class="pgProductOverview ui-widget">
 					<div class="ui-widget-content ui-corner-all">
 						<h4 class="ui-widget-header"><span class="setProviderName"></span>
-						<span style="float:right; margin-top:-2px; margin-right:4px;"><img class="loadSpinner" src="img/ajax-loader.gif"/></span>
+						<span style="float:right; margin-top:-5px; margin-right:4px;"><img class="loadSpinner" src="img/ajax-loader.gif"/></span>
 						</h4>
 						<table id="tbl_products" class="tblListingDefault">
 							<thead>
@@ -1391,7 +1434,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr id="{id}" class="clickable" productId="{id}">
+								<tr id="{id}" class="clickable" productId="{id}" providerId="{provider_id}">
 									<td><input type="checkbox" name="productBulkAction"/></td>
 									<td>{id}</td>
 									<td title="<?php echo $Text['click_row_edit']; ?>">{name}</td>

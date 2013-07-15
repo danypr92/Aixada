@@ -32,13 +32,23 @@ $(function(){
 				sums['totalRevTax'] = totalRevTax.toFixed(2); 
 				sums['total_net'] = totalNet.toFixed(2);
 				return sums; 
-			},			
-			formatQuantity : function(obj){
+			},		
+			sumSimpleItems : function (sel){
+				var total = 0; 
+				$(sel).each(function(){
+					var price = new Number($(this).text());					
+					total += price; 
+				});
+				return total.toFixed(2); 
+				
+			},
+			formatQuantity : function(obj, cursign){
 				
 				$('.formatQty',obj).each(function(){
 					var b = $(this).text();
 		        	var css = (new Number(b) >= 0)? 'aix-style-pos-balance':'aix-style-neg-balance';					
 		        	$(this).addClass(css);
+		        	if (typeof cursign != 'undefined') $(this).append(cursign);
 				})
 				
 			}
