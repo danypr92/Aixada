@@ -807,8 +807,6 @@
 			</div>
 
 
-<<<<<<< HEAD
-=======
 			<div id="monitorUFs" class="ui-widget">
 				<div class="ui-widget-content ui-corner-all aix-style-observer-widget">
 					<h3 class="ui-widget-header ui-corner-all"><span class="left-icons ui-icon ui-icon-triangle-1-s"></span><?php echo $Text['negativeUfs'];?><span class="loadAnim floatRight"><img class="loadSpinner" src="img/ajax-loader.gif"/></span></h3>
@@ -877,7 +875,6 @@
 
 				</div>
 			</div>
->>>>>>> e83cb52123e8b84cf57972682edb35d5efa7a54f
 
 
 		</div>

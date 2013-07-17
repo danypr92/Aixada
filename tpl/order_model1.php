@@ -110,11 +110,11 @@
 						<img alt="coop logo" src="../img/tpl_header_logo.png" width="500" height="180"/>
 		</div>
 		<div id="address">
-			<h2 class="txtAlignRight">COOPERATIVA Name</h2>
-			<h2 class="txtAlignRight">CIF/NIF: F650000000</h2>
-			<p class="txtAlignRight">Street<br/>
-			Zip City<br/>
-			email@bla.com
+			<h2 class="txtAlignRight">COOPERATIVA Gira-sol de Sant Martí</h2>
+			<h2 class="txtAlignRight">-</h2>
+			<p class="txtAlignRight">C/ Doctor Zamenhof, 23<br/>
+			Barcelona<br/>
+			cooperativa-gira-sol-de-sant-marti@googlegroups.com
 			</p>
 		</div>
 	</div>

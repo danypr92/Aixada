@@ -445,7 +445,7 @@
 
 				//transport
 				} else if (tds.eq(3).text() == "3"){
-					tds.eq(3).text("<?=$Text['transport'];?>");
+					tds.eq(3).text("<?=$Text['transport_label'];?>");
 				}
 			
 				//active

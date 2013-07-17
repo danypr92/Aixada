@@ -812,6 +812,7 @@ $Text['btn_new_provider'] = "Nou proveïdor";
 $Text['btn_new_product'] = "Afegir producte";
 $Text['orderable'] = "Comanda directe"; //product type
 $Text['msg_err_providershort'] = "El nom del proveïdor no pot quedar buit i ha de ser de més de 2 caràcters.";
+$Text['msg_err_productshort'] = "El nom del producte no pot quedar buit i ha de ser de més de 2 caràcters.";
 $Text['msg_err_select_responsibleuf'] = "Qui s'encarrega? S'ha de seleccionar un responsable.";
 $Text['msg_err_product_category'] = "S'ha de seleccionar una categoria de producte.";
 $Text['msg_err_order_unit'] = "S'ha de seleccionar una unitat de mesura per a la comanda.";
