@@ -71,7 +71,7 @@
 								['aixada_orderable_type', 'sOrderableTypeId', 'id', 'description'],
 								['aixada_uf', 'sResponsibleUfId','id','name'],
 								['aixada_product_category','sCategoryId', 'id', 'description'],
-								['aixada_rev_tax_type','sRevTaxTypeId', 'id', 'name', 'rev_tax_percent'],
+								//['aixada_rev_tax_type','sRevTaxTypeId', 'id', 'name', 'rev_tax_percent'],
 								['aixada_iva_type','sIvaPercentId','id','name', 'percent'],
 								['aixada_unit_measure','sUnitMeasureOrderId','id','name'],
 								['aixada_unit_measure','sUnitMeasureShopId','id','name']
@@ -1422,7 +1422,7 @@
 									<th class="clickable"><p class="floatLeft"><?php echo $Text['active']; ?></p></th>
 									
 									<th class="clickable"><p class="textAlignRight"><?php echo $Text['price_net'];?> </p></th>
-									<th class="clickable"><p class="textAlignCenter"><?php echo $Text['revtax_abbrev']; ?></p></th>
+									<!--  <th class="clickable"><p class="textAlignCenter"><?php echo $Text['revtax_abbrev']; ?></p></th> -->
 									<th class="clickable"><p class="textAlignCenter"><?php echo $Text['iva']; ?></p></th>
 									
 									
@@ -1443,7 +1443,7 @@
 									<td>{orderable_type_id}</td>
 									<td><p class="textAlignCenter iconContainer">{active}</p></td>
 									<td><p class="textAlignRight">{unit_price_netto}</p> </td>
-									<td><p class="textAlignCenter">{rev_tax_percent}%</p></td>
+									<!-- <td><p class="textAlignCenter">{rev_tax_percent}%</p></td>-->
 									<td><p class="textAlignCenter">{iva_percent}%</p></td>
 									<td><p class="textAlignRight">{unit_price} </p></td>
 									<td><p class="textAlignCenter">{unit}</p></td>	

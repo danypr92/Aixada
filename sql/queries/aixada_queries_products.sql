@@ -514,7 +514,7 @@ begin
     	set wherec 	= concat(wherec, " and p.orderable_type_id != 3 ");
     end if;
     
-  
+
 	set @q = concat("
 	select
 		p.*,
@@ -522,8 +522,7 @@ begin
 		p.unit_price as unit_price_netto, 
 		pv.name as provider_name,	
 		u.unit,
-		iva.percent as iva_percent,
-		t.rev_tax_percent
+		iva.percent as iva_percent
 		",fieldc,"
 	from
 		",fromc,"
@@ -535,7 +534,6 @@ begin
 	where 
 		pv.id = p.provider_id	
 		",wherec,"
-		and p.rev_tax_type_id = t.id
 		and p.iva_percent_id = iva.id 
 		
 	order by p.name asc, p.id asc;");
