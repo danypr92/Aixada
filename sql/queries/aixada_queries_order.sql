@@ -843,7 +843,7 @@ begin
 	  								from 
 	  									aixada_order_item ois
 	  								where
-	  									ois.order_id = oi.order_id
+	  									ois.order_id = o.id
 										and ois.uf_id =",the_uf_id,")");
 	else 
 		set totalc = "o.total "; 
