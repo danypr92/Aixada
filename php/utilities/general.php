@@ -414,7 +414,12 @@ function get_import_rights($db_table_name)
 	return $xml . "</rows>";
 }
 
-
+function cmp1($a, $b) {
+	if ($a[1] == $b[1]) {
+		return 0;
+	}
+	return ($a[1] < $b[1]) ? -1 : 1;
+}
 
 function get_field_options_live($table, $field1, $field2, $field3='')
 {
@@ -427,7 +432,7 @@ function get_field_options_live($table, $field1, $field2, $field3='')
     }
     
     if (in_array($table, array('aixada_unit_measure'))) {
-	$strSQL .= ' order by name';
+	  $strSQL .= ' order by name';
     } else if (in_array($table, array('aixada_orderable_type'))) {
 	$strSQL .= ' order by description';
     }
@@ -442,8 +447,22 @@ function get_field_options_live($table, $field1, $field2, $field3='')
     if ($table == 'aixada_uf') {
         $strXML .= "<option value='-1'>".$Text['sel_uf']."</option>";
     }
+    
+    
+    $x=1;
+    $opciones = array();
     while ($row = $rs->fetch_array()) {
-        $ot = (isset($Text[$row[1]]) ? $Text[$row[1]] : $row[1]);
+    	$row[1] = (isset($Text[$row[1]]) ? $Text[$row[1]] : $row[1]);
+    	$opciones[$x] = $row;
+    	$x++;
+    }
+    
+    uasort( $opciones, 'cmp1');
+    
+    foreach ($opciones as $x => $row)
+    {
+    	$row = $opciones[$x];
+    	$ot = $row[1];
         if ($table == 'aixada_uf'){
             $ot = //$Text['uf_short'] . ' ' . 
                 $row[0] . ' ' . $ot;
