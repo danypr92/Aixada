@@ -235,6 +235,7 @@ $Text['stock'] = "Estoc";
 
 
 
+
 /**
  *              Shop and order
  */
@@ -458,7 +459,25 @@ $Text['prdcat_health'] 			= "Salut";		//paper del vàter, paper de cuina 1
 $Text['prdcat_misc']			= "Tota la resta..." ;
 
 
+/**
+ *  Units
+ */
 
+$Text['unit is not set'] = 'Quina unitat?';
+$Text['unit'] = 'Unitats';
+$Text['grams'] = 'Grams';
+$Text['kilograms'] = 'Kilograms';
+$Text['unit of 250g'] = 'Quarts de Kg' ;
+$Text['unit of half kilo'] = 'Mitjos Kilos' ;
+$Text['mililiters'] = 'Milimetres' ;
+$Text['liter'] = 'Litres';
+$Text['one liter'] = 'Litres sensers';
+$Text['quarter of a liter'] = 'Quarts de Litre';
+$Text['half a liter'] = 'Mitjos litres';
+$Text['three quarters of a liter'] = '3/4 de litre';
+$Text['bunch'] = 'Manat';
+$Text['dozen'] = 'Dotzena';
+$Text['half-dozen'] = 'Mitja dotzena';
 
 
 /**

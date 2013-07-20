@@ -452,7 +452,25 @@ $Text['prdcat_health'] 			= "Salud";		//papel del váter, papel de cocina
 $Text['prdcat_misc']			= "El resto..." ;
 
 
+/**
+ *  Units
+ */
 
+$Text['unit is not set'] = 'Qué unidad';
+$Text['unit'] = 'Unidades';
+$Text['grams'] = 'Gramos';
+$Text['kilograms'] = 'Kilogramos';
+$Text['unit of 250g'] = 'Cuartos de Kg' ;
+$Text['unit of half kilo'] = 'Medios Kilo' ;
+$Text['mililiters'] = 'Milimetros' ;
+$Text['liter'] = 'Litros';
+$Text['one liter"'] = 'Litros enteros';
+$Text['quarter of a liter'] = 'Cuartos de Litro';
+$Text['half a liter'] = 'Medios litros';
+$Text['three quarters of a liter'] = '3/4 de litro';
+$Text['bunch'] = 'Manojo';
+$Text['dozen'] = 'Docena';
+$Text['half-dozen'] = 'Media docena';
 
 
 /**
@@ -899,5 +917,6 @@ $Text['msg_err_adminStuff'] = "Privilegios de acceso insuficientes. ¡Solo un ad
 $Text['msg_err_deactivate_prdrow'] = "This product cannot be deactivated because it has ordered items for certain dates. Deactivate the product for those individual dates first!";
 $Text['msg_err_deactivate_ir'] = "You cannot deactivate several dates for this product since certain dates contain already ordered items. Either turn off Instant Repeat or deactivate the ordered products/date individually.";
 
+$Text['dozen'] = "Docena"
 
 ?>
