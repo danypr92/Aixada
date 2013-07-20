@@ -450,7 +450,7 @@ end|
  *  Furthermore it is important to note that the price delivered includes IVA and Rev Tax!! There is no 
  *  need to calcuate this at a later point in time (upon validation for example). 
  */
-drop procedure if exists get_products_detail;
+drop procedure if exists get_products_detail|
 create procedure get_products_detail(	in the_provider_id int, 
 										in the_category_id int, 
 										in the_like varchar(255),
