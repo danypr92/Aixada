@@ -303,7 +303,7 @@
 				//add description of product
 				itemInfo += '<li><?=$Text['description'];?>: '+$(this).attr("description")+'</li>';
 				itemInfo += '<li><?=$Text['iva'];?>: '+$(this).attr("iva_percent")+'%</li>';
-				itemInfo += '<li><?=$Text['revtax_abbrev'];?>: '+$(this).attr("rev_tax_percent")+'%</li>'
+				//itemInfo += '<li><?=$Text['revtax_abbrev'];?>: '+$(this).attr("rev_tax_percent")+'%</li>'
 				itemInfo += '</ul>';
 
 				//init the context menu
@@ -354,7 +354,7 @@
 					price 			: parseFloat($("td.item_price", row).text()),
 					quantity 		: $(this).val(),
 					unit 			: $("td.item_unit", row).text(),
-					rev_tax_percent : $("td.item_rev_tax_percent", row).text(),
+					//rev_tax_percent : $("td.item_rev_tax_percent", row).text(),
 					iva_percent		: $("td.item_iva_percent", row).text()
 			}); //end addItem to cart
 
@@ -520,7 +520,7 @@
 								<td class="item_provider_name hidden">{provider_name}</td>
 								<td class="item_quantity"><input  class="ui-corner-all" name="{id}" value="0.00" size="4" id="quantity_{id}"/></td>
 								<td class="item_unit">{unit}</td>
-								<td class="item_rev_tax_percent hidden">{rev_tax_percent}</td>
+								<!--<td class="item_rev_tax_percent hidden">{rev_tax_percent}</td>-->
 								<td class="item_price">{unit_price}</td>
 								<td class="item_iva_percent hidden">{iva_percent}</td>
 							</tr>
@@ -546,7 +546,7 @@
 							<th><?php echo $Text['provider_name'];?></th>
 							<th><?php echo $Text['quantity'];?></th>
 							<th><?php echo $Text['unit'];?></th>
-							<!-- th><?php echo $Text['revtax_abbrev'];?></th-->
+							<!-- <th><?php echo $Text['revtax_abbrev'];?></th>-->
 							<th><?php echo $Text['price'];?></th>
 						</tr>
 						</thead>

@@ -1167,8 +1167,10 @@
 			var price = $.checkNumber($('input[name="unit_price"]', frm),0.00, 2);
 			$('input[name=unit_price]', frm).val(price);
 			
-			var revp = $('span.sIvaPercentId', frm).children('select').children('option:selected').attr('addInfo');
-			var ivap = $('span.sRevTaxTypeId', frm).children('select').children('option:selected').attr('addInfo');
+		    var ivap = $('span.sIvaPercentId', frm).children('select').children('option:selected').attr('addInfo');
+			
+			//var revp = $('span.sRevTaxTypeId', frm).children('select').children('option:selected').attr('addInfo');
+			var revp= '0';
 			
 			var rev = new Number(revp);
 			var iva = new Number(ivap);
@@ -1571,12 +1573,14 @@
 							    	<input type="hidden" name="iva_percent_id" value="{iva_percent_id}"/>
 							    	<span class="textAlignLeft sIvaPercentId"></span></td>
 							  </tr>
+							  <!--  
 							  <tr>
 							    <td><label for="rev_tax_type_id">+ <?php echo $Text['rev_tax_type']; ?></label></td>
 								  <td>
 							    	<input type="hidden" name="rev_tax_type_id" value="{rev_tax_type_id}"/>
 							    	<span class="textAlignLeft sRevTaxTypeId"></span></td>
 							  </tr>
+							  -->
 							  <tr>
 							    <td><label><?php echo $Text['unit_price']; ?></label></td>
 								<td><p class="boldStuff ui-corner-all aix-layout-fixW80 unit_price_brutto">{unit_price}</p></td>
@@ -1597,12 +1601,15 @@
 							    	<button class="btn_edit_stocks stockElements"><?php echo $Text['btn_edit_stock'];?></button>
 							    </td>
 							  </tr>
+							  <!-- 
 							  <tr>
 							    <td><label for="stock_min"><?php echo $Text['stock_min']; ?></label></td>
 							    <td><input type="text" name="stock_min" value="{stock_min}" class="ui-widget-content ui-corner-all" /></td>
 							    <td>&nbsp;</td>
 							    <td>&nbsp;</td>
 							  </tr>
+							  -->
+							  
 							  
 							  <tr>
 							    <td>&nbsp;</td>
