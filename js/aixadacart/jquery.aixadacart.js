@@ -661,7 +661,7 @@
 		
 		var tbl_foot = 	'<tfoot>';
 		tbl_foot += '		<tr><td colspan="4">&nbsp;</td><td class="total_net_label">'+$.aixadacart.total_net+'</td><td class="total_net cart_dblBorderTop">0.00</td></tr>';
-		tbl_foot += '		<tr><td colspan="5" class="rev_tax_label">'+$.aixadacart.revTaxInclAbbrev+'</td><td class="rev_tax_total">0.00</td></tr>';
+		//tbl_foot += '		<tr><td colspan="5" class="rev_tax_label">'+$.aixadacart.revTaxInclAbbrev+'</td><td class="rev_tax_total">0.00</td></tr>';
 		tbl_foot += '		<tr><td colspan="5" class="iva_tax_label">'+$.aixadacart.ivaTaxInclAbbrev+'</td><td class="iva_tax_total">0.00</td></tr>';
 		tbl_foot += '		<tr><td colspan="4">&nbsp;</td><td class="total_label">'+$.aixadacart.total+'</td><td class="total">0.00</td></tr>';
 		tbl_foot += '		<tr><td colspan="3"><p id="cartMsg"></p></td><td colspan="3"><button type="submit" id="btn_submit">'+$.aixadacart.submit+'</button></td></tr>';
