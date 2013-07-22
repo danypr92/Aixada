@@ -199,9 +199,9 @@ s rows in aixada_order_item for given uf and date.
     			     order_id is null and
     			     (date_for_order=:2q or date_for_order='1234-01-23') and
     			     product_id in ( select id from aixada_product where orderable_type_id=3)";
-    	 
+
     	$rs = $db->Execute( $sqltrans, $uf, $date);
-    	$transport_prods = [];
+    	$transport_prods = array();
     	while ( $row = $rs->fetch_array()) {
     		$transport_prods[$row["product_id"]] = 1;
     	}
@@ -233,7 +233,7 @@ s rows in aixada_order_item for given uf and date.
     			";
     
     	$rs = $db->Execute( $sql, $date);
-        	$providers = [];
+        	$providers = array();
         	while ( $row = $rs->fetch_array()) {
         	$providers[$row["provider_id"]] = $row;
     	}
@@ -266,11 +266,11 @@ s rows in aixada_order_item for given uf and date.
     			";
     
     	$rs = $db->Execute( $sql, $date);
-        $providers = [];
+        $providers = array();
     	while ( $row = $rs->fetch_array()) {
     
     	if ( ! array_key_exists($row["provider_id"], $providers ) ) {
-    			$providers[$row["provider_id"]] = [];
+    			$providers[$row["provider_id"]] = array();
     	}
     	$providers[$row["provider_id"]][$row["uf_id"]] = $row;
     	}

@@ -323,7 +323,7 @@ class abstract_cart_manager {
 		";
     
     
-    	$providers_with_fees = [];
+    	$providers_with_fees = array();
     	$rs = $db->Execute( $sql);
     	while ( $row = $rs->fetch_array()) {
     		$providers_with_fees [ $row["provider_id"]] = $row;
@@ -334,18 +334,18 @@ class abstract_cart_manager {
 
     protected function filter_transport_products($db,$uf,$date)
     {
-    	$transport_prods = [];
+    	$transport_prods = array();
     	return $transport_prods;
     }
     
    
    protected function get_totals_fees_by_provider($db, $date ) {
-   		$providers = [];
+   		$providers = array();
     	return $providers;
    }
 
    protected function get_uf_totals_fees_by_provider($db, $date) {
-   		$providers = [];
+   		$providers = array();
    		return $providers;
    }
 

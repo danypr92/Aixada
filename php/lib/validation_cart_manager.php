@@ -69,7 +69,7 @@ class validation_cart_manager extends shop_cart_manager {
     			     product_id in ( select id from aixada_product where orderable_type_id=3)";
   
   	$rs = $db->Execute( $sqltrans, $uf, $date);
-  	$transport_prods = [];
+  	$transport_prods = array();
   	while ( $row = $rs->fetch_array()) {
   		$transport_prods[$row["product_id"]] = 1;
   	}
@@ -101,7 +101,7 @@ class validation_cart_manager extends shop_cart_manager {
     			";
   
     $rs = $db->Execute( $sql, $date);
-    $providers = [];
+    $providers = array();
     while ( $row = $rs->fetch_array()) {
       $providers[$row["provider_id"]] = $row;
     }
@@ -133,11 +133,11 @@ class validation_cart_manager extends shop_cart_manager {
     			";
  
     	$rs = $db->Execute( $sql, $date);
-     	$providers = [];
+     	$providers = array();
      	while ( $row = $rs->fetch_array()) {
  
      	if ( ! array_key_exists($row["provider_id"], $providers ) ) {
-    			$providers[$row["provider_id"]] = [];
+    			$providers[$row["provider_id"]] = array();
      	}
      	$providers[$row["provider_id"]][$row["uf_id"]] = $row;
      	}
