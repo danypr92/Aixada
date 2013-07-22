@@ -37,7 +37,7 @@ try{
   		exit;
   		
   	case 'getAllOrderableDates':
-  	  	echo get_dates('get_orderable_dates', $format='array');
+  	  	echo get_dates('get_orderable_dates', $format='array', $limit=0);
   	  	exit;
   	  	
   	case 'getUpcomingOrders':

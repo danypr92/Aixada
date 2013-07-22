@@ -13,6 +13,13 @@ begin
   	if from_date = 0 then 
   		set from_date_onward = date(sysdate()); 
   	end if;
+  	
+  	if the_limit = 0 then
+  	   set @limit = '';
+  	else
+  	   set @limit = concat( "limit ", the_limit);
+  	end if;
+  		
 		
 	set @q = concat("select distinct
 		po.date_for_order
@@ -21,8 +28,7 @@ begin
 	where
 		po.date_for_order > '", from_date_onward,"'
 	order by
-		po.date_for_order asc
-	limit ", the_limit , ";");
+		po.date_for_order asc ", @limit, ';');
 
 	prepare st from @q;
   	execute st;
