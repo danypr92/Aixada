@@ -457,6 +457,12 @@ $Text['prdcat_driedstuff'] 		= "Coses per a picar i fruits secs";
 $Text['prdcat_paper'] 			= "Cel·lulosa i paper";		//mocadors, paper del vàter, paper de cuina 
 $Text['prdcat_health'] 			= "Salut";		//paper del vàter, paper de cuina 1
 $Text['prdcat_misc']			= "Tota la resta..." ;
+$Text['prdcat_aviram']          = "Aviram";
+
+
+$Text['feetype_nocost']         = "Sense cost";
+$Text['feetype_costproportional']         = "Proporcional al cost";
+$Text['feetype_numberproportional']         = "Proporcional al número";
 
 
 /**

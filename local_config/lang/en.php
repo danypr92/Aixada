@@ -454,6 +454,12 @@ $Text['prdcat_driedstuff'] 		= "Snacks and dried fruit";
 $Text['prdcat_paper'] 			= "Cellulose and paper";		//hankerchiefs, toilet paper, kitchen paper, 
 $Text['prdcat_health'] 			= "Health";		//hankerchiefs, toilet paper, kitchen paper, 
 $Text['prdcat_misc']			= "Everything else..." ;
+$Text['prdcat_aviram']          = "Chicken and eggs";
+
+
+$Text['feetype_nocost']         = "No cost";
+$Text['feetype_costproportional']         = "Cost proportional";
+$Text['feetype_numberproportional']         = "Number proportional";
 
 
 
