@@ -1,7 +1,7 @@
 QUERIES = $(wildcard queries/*sql)
-DB_NAME = myaixada
-DB_USER = aixada
-DB_PASSWD = aixada
+DB_NAME = girasoldesantma
+DB_USER = girasoldesantma
+DB_PASSWD = girasol25
 DB_DUMP = aixada_current_dump.sql
 
 
