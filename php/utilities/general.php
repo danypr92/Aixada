@@ -181,12 +181,23 @@ function do_stored_query()
 
   $strSQL = 'CALL ' . $sql_func . '(';
   foreach ($args as $arg) {
-      if (strpos($arg, "'") !== false) {
-          if (strpos($arg, '"') !== false)
+
+  	  if ( gettype($arg) == "string") {
+  	  	
+  	     if (strpos($arg, "'") !== false) {
+           if (strpos($arg, '"') !== false)
               throw new DataException('Cannot use both symbols \' and " in text');
-          $strSQL .= '"' . $arg . '",';
-      } else 
+           $strSQL .= '"' . $arg . '",';
+         } else  {
           $strSQL .= "'" . $arg . "',";
+         }
+  	  } else if (gettype($arg) == "boolean") {
+  	  	if ( $arg ) $strSQL .=  "true" . ','; 
+  	  	else $strSQL .=  "false" . ','; 
+  	  	
+  	  } else {
+  	  	$strSQL .=  $arg . ','; 	  	
+  	  }
   }
   if (count($args))
     $strSQL = rtrim($strSQL, ',');
