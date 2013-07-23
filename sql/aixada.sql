@@ -196,7 +196,7 @@ create table aixada_iva_type (
   orderable_type_id		tinyint			default 2,
   order_min_quantity	decimal(10,4)	default 0,
   category_id	      	int				default 1,
-  rev_tax_type_id		tinyint			default 1,
+  rev_tax_type_id		tinyint			default 2,
   iva_percent_id  	    smallint 		default 1,
   unit_price       		decimal(10,2) 	default 0.0,
   unit_measure_order_id	tinyint			default 1,
