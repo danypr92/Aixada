@@ -392,7 +392,10 @@
 
 				//construct the responsible uf select
 				populateSelect(gProviderSelects,'#tbl_provider_new');
-
+				
+				//set fee type
+				$('#tbl_provider_new input[name=transport_fee_type_id]').val('0');
+				
 				//new providers have no id
 				$('#tbl_provider_new input[name=id]').remove();
 
@@ -831,6 +834,9 @@
 
 				//clear all fields first time
 				$('input:text, input:hidden, textarea', frm).val('');
+
+				//set orderable type
+				$('#frm_product_new input[name=orderable_type_id]').val('2');
 				
 				gFirstTimeNewProduct = false; 
 			}
@@ -859,6 +865,7 @@
 			//set provider id
 			$('#frm_product_new input[name=provider_id]').val(gSelProvider.attr('providerId'));
 
+			
 			//set responsible_uf same as provider. Doesn't work the first time when the form select gets constructed for the first time...
 			var rufid = gSelProvider.attr('responsibleUfId');
 			$('#tbl_product_new span.sResponsibleUfId').prev().val(rufid);
@@ -1430,9 +1437,6 @@
 									<th class="clickable"><p class="textAlignCenter"><?php echo $Text['unit'];?></p></th>
 									
 									<th><p class="textAlignRight"><?php echo $Text['stock'];?></p></th>
-									
-									<th><p>&nbsp;</p></th>
-									<th><p>&nbsp;</p></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -1449,8 +1453,6 @@
 									<td><p class="textAlignCenter">{unit}</p></td>	
 									<td>
 										<p class="formatQty textAlignRight">{stock_actual}</p>
-									</td>
-									<td>
 									</td>
 									<td><a href="javascript:void(null)" class="btn_del_product"><?php echo $Text['btn_del'];?></a></td>
 								</tr>						
@@ -1588,6 +1590,7 @@
 							  </tr>
 							  
 							  
+							  <!--  
 							  <tr>
 							    <td>&nbsp;</td>
 							    <td colspan="3">&nbsp;</td>
@@ -1601,7 +1604,7 @@
 							    	<button class="btn_edit_stocks stockElements"><?php echo $Text['btn_edit_stock'];?></button>
 							    </td>
 							  </tr>
-							  <!-- 
+							   
 							  <tr>
 							    <td><label for="stock_min"><?php echo $Text['stock_min']; ?></label></td>
 							    <td><input type="text" name="stock_min" value="{stock_min}" class="ui-widget-content ui-corner-all" /></td>
