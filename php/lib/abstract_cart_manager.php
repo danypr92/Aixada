@@ -214,9 +214,7 @@ class abstract_cart_manager {
             $this->_delete_rows();
             if ($hasItems) {
             	$this->_commit_rows();
-            	
-            	$this->_calculate_transport_cost($db);
-            	            	
+            	            	            	
             } else {
             	$this->_delete_cart();
             }
@@ -302,103 +300,6 @@ class abstract_cart_manager {
     protected function _postprocessing($arrQuant, $arrProdId, $arrIva, $arrRevTax, $arrOrderItemId, $cart_id, $arrPreOrder, $arrPrice)
     {
     }
-    
-    /**
-     * Gets Providers with transportation fees and info of the product associated to the fee
-     */
-    protected function get_providers_with_transportation_fees( $db) {
-    	// All providers with fees with any product in my cart
-    	
-    	$sql = "select
-			prov.id as provider_id ,
-    		prov.transport_fee_type_id as fee_type,
-			prod.id as product_id,
-			prod.unit_price as cost,
-    		prod.iva_percent_id as iva,
-    		prod.rev_tax_type_id as rev_tax
-		from
-			aixada_provider prov inner join  aixada_product prod
-    			   on ( prod.provider_id = prov.id  and prod.orderable_type_id = 3 and prov.transport_fee_type_id!=0)
-
-		";
-    
-    
-    	$providers_with_fees = array();
-    	$rs = $db->Execute( $sql);
-    	while ( $row = $rs->fetch_array()) {
-    		$providers_with_fees [ $row["provider_id"]] = $row;
-    	}
-    
-    	return $providers_with_fees;
-    }
-
-    protected function filter_transport_products($db,$uf,$date)
-    {
-    	$transport_prods = array();
-    	return $transport_prods;
-    }
-    
-   
-   protected function get_totals_fees_by_provider($db, $date ) {
-   		$providers = array();
-    	return $providers;
-   }
-
-   protected function get_uf_totals_fees_by_provider($db, $date) {
-   		$providers = array();
-   		return $providers;
-   }
-
-   protected function _calculate_transport_cost($db)
-   {
-   }
-   
-
-    /**
-     * Transportation cost
-     */
-    protected function calculate_transport_fee($db, $date, $uf) {
-
-    	$providers = $this->get_providers_with_transportation_fees($db);
-    	$totals_by_provider = $this->get_totals_fees_by_provider($db, $date);
-    	$uftotals_by_provider = $this->get_uf_totals_fees_by_provider($db, $date);
-      
-    	foreach ( $providers as $prov => $prov_info ) {
-    		$total_info = $totals_by_provider[$prov];
-    		
-    		foreach( $uftotals_by_provider[$prov] as $uf => $uf_info ) {
-
-	    		switch ($prov_info["fee_type"] ){
-	    			case 1:
-	    				;
-	    				$units = $uf_info["cost"];
-	    				$cost  = $prov_info["cost"] / ( $total_info["cost"]  ) ;
-	    				break;
-	    				 
-	    			case 2:
-	    				$units = $uf_info["quantity"];
-	    				$cost  = $prov_info["cost"]  / ( $total_info["quantity"]  );
-	    				break;
-	    			
-	    			default:
-	    				;
-	    				break;
-	    		}
-	    		$this->_rows[] = $this->new_item(
-	    				$prov_info["product_id"],
-	    				$units,
-	    				$cost,
-	    				null,
-	    				$prov_info["iva"],
-	    				$prov_info["rev_tax"],
-	    				$uf
-	    		);
-    		}
-    	}
-    }
-    
-    
-
    
 }
 ?>
