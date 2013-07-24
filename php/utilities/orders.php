@@ -6,6 +6,7 @@ require_once(__ROOT__ . 'php/inc/database.php');
 require_once(__ROOT__ . 'local_config/config.php');
 require_once(__ROOT__ . 'php/utilities/general.php');
 require_once(__ROOT__ . 'local_config/lang/'.get_session_language() . '.php');
+require_once(__ROOT__ . 'php/lib/fees_manager.php');
 
 
 
@@ -61,6 +62,7 @@ function finalize_order($provider_id, $date_for_order)
 	
 	//check here if an order_id already exists for this date and provider. 
 	
+	$db = DBWrap::get_instance();
 	
 	
 	if ($config_vars->internet_connection && $config_vars->email_orders){
@@ -90,7 +92,6 @@ function finalize_order($provider_id, $date_for_order)
 		
 		$message .= '</body></html>';
 		
-		$db = DBWrap::get_instance();
 		$db->free_next_results();
 		$strSQL = 'SELECT email FROM aixada_provider WHERE id = :1q';
     	$rs = $db->Execute($strSQL, $provider_id);
@@ -145,6 +146,8 @@ function finalize_order($provider_id, $date_for_order)
 		
 	}
 	
+	$feeman = new order_cart_fees_manager($date_for_order);
+	$feeman->calculate_transport_fee($db,$provider_id);
 	
 	
 	
@@ -156,6 +159,7 @@ function finalize_order($provider_id, $date_for_order)
 	} else {
 		throw new Exception ($Text['msg_err_finalize']);
 	}
+
 	
 	return $msg; 
 	

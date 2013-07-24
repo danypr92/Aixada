@@ -658,7 +658,7 @@ $Text['msg_err_edit_order'] = "Aquesta comanda no està completada. Només pots 
 $Text['order_open'] = "La comanda està oberta";
 $Text['finalize_now'] = "Finalitza ara";
 $Text['msg_err_order_filter'] = "No hi ha comandes coincidents amb el filtre.";
-$Text['msg_finalize'] = "Estàs a punt de finalitzar la comanda. Si ho fas, ja no podràs fer modificacions a la comanda. Estàs segur de voler continuar?";
+$Text['msg_finalize'] = "Estàs a punt de finalitzar la comanda. Si ho fas, ja no podràs fer modificacions a la comanda. En aquest punt també es calcularà el cost del transport del proveedor si aplica, i es distribuirà a les cistelles. Estàs segur de voler continuar?";
 $Text['msg_finalize_open'] = "Aquesta comanda encara està oberta. Si la finalitzes ara, l'estaràs tancant abans de la seva data límit. Estàs segur de voler continuar?";
 $Text['msg_wait_tbl'] = "L'encapçalament de la taula s'està construint. Això pot trigar una mica en funció de la velocitat del teu navegador. Torna-ho a provar en 5 segons. ";
 $Text['msg_err_invalid_id'] = "No s'ha trobat un ID de la comanda! Aquesta comanda no s'ha enviat al proveïdor!!";
@@ -912,6 +912,8 @@ $Text['ti_import_products'] = "Importar o actualitzar els productes de ";
 $Text['ti_import_providers'] = "Importar proveïdor"; 
 $Text['head_ti_import'] = "Assistent d'importació";
 
+$Text['transport_label'] = "Transport";
+$Text['transport_fee_type'] = "Distribució del coste";
 $Text['withdraw_desc_banc'] = "Retirar diners del compte o fer la transferència per al pagament de proveïdors.";
 $Text['deposit_desc_banc'] = "Registrar totes les entrades de diners al compte de consum.";
 $Text['deposit_banc'] = "Dipòsit de compte de consum";
@@ -933,8 +935,6 @@ $Text['msg_err_deactivate_prdrow'] = "This product cannot be deactivated because
 $Text['msg_err_deactivate_ir'] = "You cannot deactivate several dates for this product since certain dates contain already ordered items. Either turn off Instant Repeat or deactivate the ordered products/date individually.";
 
 
-$Text['transport_label'] = "Transport";
-$Text['transport_fee_type'] = "Distribució del coste";
-$Text['transport'] = "Cost transport"; //product type
+$Text['caltrans'] = "Calcula transport";
 
 ?>

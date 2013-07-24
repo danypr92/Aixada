@@ -643,7 +643,7 @@ $Text['msg_err_edit_order'] = "Este pedido no está completo. Solo se pueden añ
 $Text['order_open'] = "El Pedido está abierto";
 $Text['finalize_now'] = "Finalizar ahora";
 $Text['msg_err_order_filter'] = "No hay pedidos coincidentes con el criterio de búsqueda.";
-$Text['msg_finalize'] = "Está a punto de terminar un pedido. Esto significa que ya no podrá hacer modificaciones.  ¿Está seguro de continuar?";
+$Text['msg_finalize'] = "Está a punto de terminar un pedido. Esto significa que ya no podrá hacer modificaciones. En este punto se calculará el coste del transporte por parte del proveedor si está definido, y se distribuirá por cestas ¿Está seguro de continuar?";
 $Text['msg_finalize_open'] = "Este pedido está todavía abierto. Finalizar-lo implica que deberá cerrarlo antes de su fecha límite. ¿Está seguro de continuar?";
 $Text['msg_wait_tbl'] = "Las cabeceras de la tabla todavía se estan creando. En función de su conexión de internet puede llevar un tiempo.  Inténtelo otra vez en 5 segundos. ";
 $Text['msg_err_invalid_id'] = "¡No se encontró ningún ID válido para el pedido! ¡¡Este pedido no ha sido enviado al proveedor!!";
@@ -923,6 +923,8 @@ $Text['msg_err_adminStuff'] = "Privilegios de acceso insuficientes. ¡Solo un ad
 $Text['msg_err_deactivate_prdrow'] = "This product cannot be deactivated because it has ordered items for certain dates. Deactivate the product for those individual dates first!";
 $Text['msg_err_deactivate_ir'] = "You cannot deactivate several dates for this product since certain dates contain already ordered items. Either turn off Instant Repeat or deactivate the ordered products/date individually.";
 
-$Text['dozen'] = "Docena"
+$Text['dozen'] = "Docena";
 
+$Text['caltrans'] = "Calcula transporte";
+		
 ?>

@@ -636,7 +636,7 @@ $Text['msg_err_edit_order'] = "This order is not finalized. You can only save th
 $Text['order_open'] = "Order is open";
 $Text['finalize_now'] = "Finalize now";
 $Text['msg_err_order_filter'] = "No orders matching the filter criteria.";
-$Text['msg_finalize'] = "You are about to finalize an order. This means that no further modifications are possible to this order. Are you sure you want to continue?";
+$Text['msg_finalize'] = "You are about to finalize an order. This means that no further modifications are possible to this order. At this point transportation fees, if defined, will be calculated and distributed to UF. Are you sure you want to continue?";
 $Text['msg_finalize_open'] = "This order is still open. Finalizing it now implies that you will close it before the anounced deadline. Are you sue you want to continue?";
 $Text['msg_wait_tbl'] = "The table header is still being constructed. Depending on your internet connection this might take a little while. Try again in 5 seconds. ";
 $Text['msg_err_invalid_id'] = "No valid ID for order found! This order has not been sent off to the provider!!";
@@ -912,6 +912,9 @@ $Text['msg_err_adminStuff'] = "Insufficient access priviledges. Only Admin can d
 
 $Text['msg_err_deactivate_prdrow'] = "This product cannot be deactivated because it has ordered items for certain dates. Deactivate the product for those individual dates first!";
 $Text['msg_err_deactivate_ir'] = "You cannot deactivate several dates for this product since certain dates contain already ordered items. Either turn off Instant Repeat or deactivate the ordered products/date individually.";
+
+
+$Text['caltrans'] = "Calc transport";
 
 
 //$Text[''] = ""; 
