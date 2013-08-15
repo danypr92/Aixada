@@ -558,7 +558,7 @@
 								<td class="item_provider_name">{provider_name}</td>
 								<td class="item_quantity"><input class="ui-corner-all"  name="{id}" value="0.00" size="4" id="quantity_{id}"/></td>
 								<td class="item_unit">{unit}</td>
-								<td class="item_rev_tax_percent hidden">{rev_tax_percent}</td>
+								<!-- <td class="item_rev_tax_percent hidden">{rev_tax_percent}</td> -->
 								<td class="item_price">{unit_price}</td>
 								<td class="item_iva_percent hidden">{iva_percent}</td>
 							</tr>
@@ -594,7 +594,7 @@
 								<td class="item_provider_name">{provider_name}</td>
 								<td class="item_quantity"><input  class="ui-corner-all" name="{id}" value="0.00" size="4" id="quantity_{id}"/></td>
 								<td class="item_unit">{unit}</td>
-								<td class="item_rev_tax_percent hidden">{rev_tax_percent}</td>
+								<!-- <td class="item_rev_tax_percent hidden">{rev_tax_percent}</td>-->
 								<td class="item_price">{unit_price}</td>
 								<td class="item_iva_percent hidden">{iva_percent}</td>
 							</tr>
@@ -626,7 +626,7 @@
 								<td class="item_provider_name">{provider_name}</td>
 								<td class="item_quantity"><input class="ui-corner-all" name="{id}" value="0.00" size="4" id="quantity_{id}"/></td>
 								<td class="item_unit">{unit}</td>
-								<td class="item_rev_tax_percent hidden">{rev_tax_percent}</td>
+								<!-- <td class="item_rev_tax_percent hidden">{rev_tax_percent}</td>-->
 								<td class="item_price">{unit_price}</td>
 								<td class="item_iva_percent hidden">{iva_percent}</td>
 							</tr>

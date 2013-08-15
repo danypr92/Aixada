@@ -8,6 +8,7 @@ require_once(__ROOT__ . "php/inc/database.php");
 require_once(__ROOT__ . "php/utilities/general.php");
 require_once(__ROOT__ . "php/utilities/orders.php");
 require_once(__ROOT__ . "php/lib/report_manager.php");
+require_once(__ROOT__ . 'php/lib/fees_manager.php');
 
 
 if (!isset($_SESSION)) {
@@ -78,6 +79,7 @@ try{
 		//moves an order from revision to shop_item (into people's cart for the given date) 
     	case 'moveOrderToShop':
     		echo do_stored_query('move_order_to_shop', get_param('order_id'), get_param('date'));
+    		finalize_cost_distribution(get_param('provider_id'), get_param('date'));
     		exit;
     		
     	//retrieves info about originally ordered quanties and available items after received orders have been revised and distributed in carts. 
@@ -112,6 +114,14 @@ try{
   			$rm = new report_manager();
   			$zipfile = $rm->bundle_orders(get_param('provider_id'), get_param('date_for_order'), get_param('order_id'),0);
       		echo $zipfile;
+      		exit;
+
+      	case 'testCostTransportOrder':
+      		finalize_order_cost_distribution(get_param('provider_id'), get_param('date',0) );
+      		exit;
+
+      	case 'testCostTransportDistribution':
+      		finalize_cost_distribution(get_param('provider_id'), get_param('date',0) );
       		exit;
       		
     default:  

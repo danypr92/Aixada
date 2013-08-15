@@ -7,6 +7,11 @@ require_once ('general.php');
 
 
 
+$debug = False;
+$DEBUG_today = strtotime("2013-08-29");
+$DEBUG_yesterday = strtotime("2013-08-29");
+
+
 /**
  * 
  * returns a list of upcoming orders that are not closed
@@ -95,7 +100,12 @@ function generate_date_product_pattern($provider_id, $fromDate, $weeklyFreq, $nr
  * @param date format $dataFormat
  */
 function dateRange( $first, $last, $outDateFormat='Y-m-d', $dataFormat='xml', $step = '+1 day' ) {
-	$current = strtotime( $first );  //TODO check if dates are valid. However, if they are feed by datepicker, this should be ok.
+	
+	global $debug,$DEBUG_today,$DEBUG_yesterday;
+	if ($debug && $first == 'Today') $current = $DEBUG_today;
+	else if ($debug && $first == 'Yesterday') $current = $DEBUG_yesterday;
+	else $current = strtotime( $first );
+	//$current = strtotime( $first );  //TODO check if dates are valid. However, if they are feed by datepicker, this should be ok.
 	$last = strtotime( $last );
 	
 	
@@ -144,15 +154,28 @@ function dateRange( $first, $last, $outDateFormat='Y-m-d', $dataFormat='xml', $s
  */
 function get_dates($which, $format = 'xml', $limit=117111451111, $from_date=0)
 {
+
+	global $debug,$DEBUG_today,$DEBUG_yesterday;
+	
 	if ($from_date == 0){
 		//TODO server - client difference in time/date?!
-		$from_date = date('Y-m-d', strtotime("Today")); 
+		if ($debug) {
+			$from_date = date('Y-m-d', $DEBUG_today);
+		}
+		else {
+			$from_date = date('Y-m-d', strtotime("Today")); 
+		}
 	}
 	
 	switch ($format){
 		case 'xml':
 			if ($which == 'today'){
-				$today = date('Y-m-d', strtotime("Today"));	
+				if ($debug) {
+					$today = date('Y-m-d', $DEBUG_today);	
+				}
+				else {
+					$today = date('Y-m-d', strtotime("Today"));	
+				}	
 				return '<row><date>'.$today.'</date></row>';
 			} else {
 				return printXML(stored_query_XML_fields($which, $from_date, $limit));
@@ -161,7 +184,12 @@ function get_dates($which, $format = 'xml', $limit=117111451111, $from_date=0)
 			
 		case 'array':
 			if ($which=='today'){
-				$today = date('Y-m-d', strtotime("Today"));	
+				if ($debug) {
+					$today = date('Y-m-d', $DEBUG_today);	
+				}
+				else {
+					$today = date('Y-m-d', strtotime("Today"));
+				}
 				return '["'.$today.'"]';
 			} else {
 

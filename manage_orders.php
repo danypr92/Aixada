@@ -342,7 +342,7 @@
 						var $this = $(this);
 						$.ajax({
 							type: "POST",
-							url: 'php/ctrl/Orders.php?oper=moveOrderToShop&order_id='+gSelRow.attr('orderId')+'&date='+$.getSelectedDate('#datepicker'),
+							url: 'php/ctrl/Orders.php?oper=moveOrderToShop&order_id='+gSelRow.attr('orderId')+'&date='+$.getSelectedDate('#datepicker')+"&provider_id="+gSelRow.attr("providerId"),
 							success: function(txt){
 								$('.success_msg').show().next().hide();
 								$this.button('disable');

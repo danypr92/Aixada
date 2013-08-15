@@ -208,7 +208,6 @@ class abstract_cart_manager {
         $db = DBWrap::get_instance();
         try {
             $db->Execute('START TRANSACTION');
-            $this->product_filter = $this->filter_transport_products($db,$this->_uf_id,$this->_date);
             $this->_make_rows($arrQuant, $arrProdId, $arrIva, $arrRevTax, $arrOrderItemId, $cart_id, $last_saved, $arrPreOrder, $arrPrice);
             $this->_check_rows();
             $this->_delete_rows();
@@ -300,6 +299,36 @@ class abstract_cart_manager {
     protected function _postprocessing($arrQuant, $arrProdId, $arrIva, $arrRevTax, $arrOrderItemId, $cart_id, $arrPreOrder, $arrPrice)
     {
     }
+    
+    /**
+     * Gets Providers with transportation fees and info of the product associated to the fee
+     */
+    protected function get_providers_with_transportation_fees( $db) {
+    	// All providers with fees with any product in my cart
+    		
+    	$sql = "select
+			prov.id as provider_id ,
+    		prov.transport_fee_type_id as fee_type,
+			prod.id as product_id,
+			prod.unit_price as cost,
+    		prod.iva_percent_id as iva,
+    		prod.rev_tax_type_id as rev_tax
+		from
+			aixada_provider prov inner join  aixada_product prod
+    			   on ( prod.provider_id = prov.id  and prod.orderable_type_id = 3 and prov.transport_fee_type_id!=0)
+    
+		";
+    
+    
+    	$providers_with_fees = array();
+    	$rs = $db->Execute( $sql);
+    	while ( $row = $rs->fetch_array()) {
+    		$providers_with_fees [ $row["provider_id"]] = $row;
+    	}
+    
+    	return $providers_with_fees;
+    }
+    
    
 }
 ?>
