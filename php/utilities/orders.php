@@ -7,6 +7,7 @@ require_once(__ROOT__ . 'local_config/config.php');
 require_once(__ROOT__ . 'php/utilities/general.php');
 require_once(__ROOT__ . 'local_config/lang/'.get_session_language() . '.php');
 require_once(__ROOT__ . 'php/lib/fees_manager.php');
+require_once(__ROOT__ . 'php/lib/fees_shop_manager.php');
 
 
 
@@ -44,12 +45,50 @@ function edit_total_order_quantities($order_id, $product_id, $new_total_quantity
 	printXML($xml . '</rows>');
 }
 
+/**
+ *
+ * Corrects an order which means, that transportation costs are redistributed after corrections
+ * No more modifications are possible and the ordered items receive an order_id
+ * @param int $provider_id
+ * @param date $date_for_order
+ */
 
+function finalize_cost_distribution($provider_id, $date_for_order)
+{
+	global $Text;
+	$config_vars = configuration_vars::get_instance();
+	$msg = '';
+
+
+	//check here if an order_id already exists for this date and provider.
+
+	$db = DBWrap::get_instance();
+	
+	$feeman = new shop_cart_fees_manager($date_for_order);
+	$feeman->calculate_transport_fee($db,$provider_id);
+}
+
+
+function finalize_order_cost_distribution($provider_id, $date_for_order)
+{
+	global $Text;
+	$config_vars = configuration_vars::get_instance();
+	$msg = '';
+
+
+	//check here if an order_id already exists for this date and provider.
+
+	$db = DBWrap::get_instance();
+
+	$feeman = new order_cart_fees_manager($date_for_order);
+	$feeman->calculate_transport_fee($db,$provider_id);
+	echo 'OK';
+}
 
 /**
  * 
  * Finalizes an order which means, that an order is send to the provider (email, printed out, fetched by provider directly).
- * No more modifications are possible and the ordered items receive an order_id
+ * No more modifications are possible and the ordered items receive an order_id. 
  * @param int $provider_id
  * @param date $date_for_order
  */
@@ -148,7 +187,6 @@ function finalize_order($provider_id, $date_for_order)
 	
 	$feeman = new order_cart_fees_manager($date_for_order);
 	$feeman->calculate_transport_fee($db,$provider_id);
-	
 	
 	
 	if ($rs = do_stored_query('finalize_order', $provider_id, $date_for_order)){
