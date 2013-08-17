@@ -82,7 +82,7 @@ class shop_cart_fees_manager extends shop_cart_manager
     			 inner join aixada_provider pder on
     			   ( prod.provider_id = pder.id and pder.transport_fee_type_id!=0 )
     			WHERE
-                 cart_id = (select id from aixada_cart where date_for_shop = :1q )  and
+                 cart_id in (select id from aixada_cart where date_for_shop = :1q )  and
     			 prod.orderable_type_id != 3
 	
     			group by 1
@@ -158,7 +158,7 @@ class shop_cart_fees_manager extends shop_cart_manager
 		// delete all transport fees
 		$sqldel = "delete from aixada_shop_item
     			   where
-    			      cart_id = ( select id from aixada_cart where date_for_shop=:1q ) and
+    			      cart_id in ( select id from aixada_cart where date_for_shop=:1q ) and
     			      product_id in ( select id from aixada_product where orderable_type_id = 3 and provider_id=:2)";
 		$db->Execute( $sqldel , $date, $provider);
 		 
