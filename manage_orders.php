@@ -181,12 +181,18 @@
 						var quShopHTML = '';  
 						
 						$(xml).find('row').each(function(){
-						
+
+							var qu = $(this).find('quantity').text();
+							
 							//for the view section, ordered quantities and revised (shop) quantities are shown
 							if (gSection == 'view' && gSelRow.attr('orderId') > 0){
 								quShop = $(this).find('shop_quantity').text();
-								quShop = (quShop == '')? 0:quShop;  //items that did not arrived produce a null value. 
-								quShopHTML = (gSection == 'view')? '<span class="shopQuantity">(' +quShop +')</span>':'';
+								if ( quShop != '' && parseFloat(qu) != parseFloat(quShop) ) {
+									quShopHTML = (gSection == 'view')? '<span class="shopQuantity">(' +quShop +')</span>':'';
+								}
+								else {
+									quShopHTML = '';
+								}
 							}
 							var product_id = $(this).find('product_id').text();
 							var uf_id = $(this).find('uf_id').text();
@@ -215,8 +221,15 @@
 							//calculate total quantities and update last table cell
 							if (lastId == -1) {lastId = product_id}; 							
 							if (lastId != product_id){
-								
-								var total = "<span>"+quTotal.toFixed(2)+"</span><span class='shopQuantity'>("+quShopTotal+")</span>";
+
+								var total;
+								if ( quTotal != parseFloat(quShopTotal) ) {
+									
+									total = "<span>"+quTotal.toFixed(2)+"</span><span class='shopQuantity'>("+quShopTotal+")</span>";
+								}
+								else {
+									total = "<span>"+quTotal.toFixed(2)+"</span>";
+								}
 								
 								$('.total_'+lastId).html(total);
 								quTotal = 0; 
@@ -229,8 +242,15 @@
 
 						});
 
-						
-						var total = "<span>"+quTotal.toFixed(2)+"</span><span class='shopQuantity'>("+quShopTotal+")</span>";
+						var total;
+						if ( quTotal != parseFloat(quShopTotal) ) {
+							
+							total = "<span>"+quTotal.toFixed(2)+"</span><span class='shopQuantity'>("+quShopTotal+")</span>";
+						}
+						else {
+							total = "<span>"+quTotal.toFixed(2)+"</span>";
+						}
+
 						$('.total_'+lastId).html(total);
 
 

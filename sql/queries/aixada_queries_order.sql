@@ -187,9 +187,14 @@ begin
 	-- if the order items are edited, retrieve them from aixada_order_to_shop--
 	if (edited is true) then 
 		set @q = concat("select 
-				ots.*
+				ots.*,
+				oi.quantity as shop_quantity
 			from 
 				aixada_order_to_shop ots
+				left join 
+					aixada_order_item oi
+				on 
+					ots.order_item_id = oi.id
 			where
 				ots.order_id = ",the_order_id,"
 				",wherec,"
