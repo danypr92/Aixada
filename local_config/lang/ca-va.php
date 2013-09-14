@@ -913,7 +913,7 @@ $Text['ti_import_providers'] = "Importar proveïdor";
 $Text['head_ti_import'] = "Assistent d'importació";
 
 $Text['transport_label'] = "Transport";
-$Text['transport_fee_type'] = "Distribució del coste";
+$Text['transport_fee_type'] = "Distribució del cost";
 $Text['withdraw_desc_banc'] = "Retirar diners del compte o fer la transferència per al pagament de proveïdors.";
 $Text['deposit_desc_banc'] = "Registrar totes les entrades de diners al compte de consum.";
 $Text['deposit_banc'] = "Dipòsit de compte de consum";
