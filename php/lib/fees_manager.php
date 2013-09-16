@@ -31,7 +31,7 @@ class order_cart_fees_manager extends order_cart_manager
 	
 		$sql = "SELECT
 		pder.id as provider_id,
-    			 sum(quantity) as quantity,
+    			 count(*) as quantity,
     			 sum(quantity * unit_price_stamp) as cost
     			FROM
     			 aixada_order_item item
@@ -64,7 +64,7 @@ class order_cart_fees_manager extends order_cart_manager
 		$sql = "SELECT
 		pder.id as provider_id,
 		item.uf_id as uf_id,
-    			  sum(quantity) as quantity,
+    			  count(*) as quantity,
     			  sum(quantity * unit_price_stamp) as cost
     			FROM
     			  aixada_order_item item
