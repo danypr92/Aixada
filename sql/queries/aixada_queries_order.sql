@@ -121,7 +121,8 @@ begin
 		select distinct
 			p.id, 
 			p.name, 
-			um.unit
+			um.unit,
+			p.custom_product_ref
 		from 
 			aixada_order_item oi,
 			aixada_product p,
@@ -136,7 +137,8 @@ begin
 		select distinct
 			p.id, 
 			p.name, 
-			um.unit
+			um.unit,
+			p.custom_product_ref
 		from 
 			aixada_order_item oi,
 			aixada_product p,

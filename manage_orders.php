@@ -773,6 +773,7 @@
 					var timeLeft = parseInt(tds.eq(4).text());
 					var status = tds.eq(8).text();
 					var isPreorder = (tds.eq(3).text() == '1234-01-23')? true:false;
+					
 
 					if (isPreorder){ //preorder has no closing date
 						tds.eq(3).text('preorder!');
@@ -1664,9 +1665,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>							
-							<td>{id}</td>
-							<td>{name}</td>
+						<tr>	
+							<td>{id}</td>						
+							<td>{custom_product_ref} - {name}</td>
 							<td id="unit_{id}">{unit}</td>
 							<td class="textAlignCenter arrivedCol"><input type="checkbox" name="hasArrived" hasArrivedId="{id}" id="ckboxArrived_{id}" checked="checked" /></td>
 						</tr>
