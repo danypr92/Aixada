@@ -1,0 +1,5 @@
+id,uf_id,favorite_cart_id,order_id,unit_price_stamp,date_for_order,product_id,quantity,ts_ordered,name,provider_id,arrived,revised,shop_quantity
+178167,16,,786,6,2016-12-15,539,1,"2016-12-10 16:35:03","Hamburgueses d'alga Nori i oliva negra (pqt. 12 u.)",21,1,0,
+178166,16,,786,5.25,2016-12-15,541,1,"2016-12-10 16:35:03","Croquetes de seità i ceps (safata 10 unitats)",21,1,0,
+178164,16,,786,4.75,2016-12-15,607,1,"2016-12-10 16:35:03","Salsitxes de seitan i tofu condimentades amb trompeta de la mort i pipes de carbassa(6unitats)",21,1,0,
+178165,16,,786,3.5,2016-12-15,779,1,"2016-12-10 16:35:03","Mandonguilles de mill i verdures (10x30gr)",21,1,0,
